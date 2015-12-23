@@ -1,0 +1,45 @@
+{
+  "builders": [
+    {
+      "boot_command": [
+        "<esc><esc><enter><wait>",
+        "/install/vmlinuz initrd=/install/initrd.gz fb=false noapic -- ",
+        "noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+        "hostname={{ .Name }} ",
+        "fb=false debconf/frontend=noninteractive ",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "<enter><wait>"
+      ],
+      "boot_wait": "10s",
+      "disk_size": 28672,
+      "guest_os_type": "ubuntu-64",
+      "headless": false,
+      "http_directory": "http",
+      "iso_checksum": "86aa35a986eba6e5ad30e3d486d57efe6803ae7ea4859b0216953e9e62871131",
+      "iso_checksum_type": "sha256",
+      "iso_url": "http://releases.ubuntu.com/15.10/ubuntu-15.10-server-amd64.iso",
+      "shutdown_command": "echo 'shutdown -P now' > shutdown.sh; echo 'vagrant'|sudo -S sh 'shutdown.sh'",
+      "ssh_password": "vagrant",
+      "ssh_port": 22,
+      "ssh_username": "vagrant",
+      "ssh_wait_timeout": "10000s",
+      "tools_upload_flavor": "linux",
+      "type": "vmware-iso",
+      "vmdk_name": "ubuntu-15.10",
+      "vmx_data": {
+        "cpuid.coresPerSocket": "1",
+        "memsize": "512",
+        "numvcpus": "1"
+      }
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "compression_level": 0,
+      "output": "ubuntu-15.10.box",
+      "only": ["vmware-iso"]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu-15.10"
+  config.ssh.forward_agent = true
+
+  %w{vmware_fusion vmware_workstation}.each do |provider|
+    config.vm.provider(provider) do |v|
+      v.vmx["memsize"] = "2048"
+      v.vmx["numvcpus"] = "4"
+    end
+  end
+
+  config.vm.synced_folder ".", "/vagrant", type: 'nfs'
+
+  config.vm.provision 'shell', inline: <<EOS
+set -ex
+export DEBIAN_FRONTEND=noninteractive
+sudo apt-get update
+sudo apt-get install -y python-software-properties
+sudo add-apt-repository -y ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install -y ansibl
+EOS
+
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.playbook = 'ansible/livegrep.yml'
+  end
+end
