@@ -1,0 +1,5 @@
+- name: Add service user
+  user:
+    name: livegrep
+    shell: /bin/bash
+    append: yes

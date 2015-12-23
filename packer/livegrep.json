@@ -1,0 +1,33 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "us-west-2",
+      "source_ami": "ami-38796759",
+      "instance_type": "t2.micro",
+      "ssh_username": "ubuntu",
+      "ami_name": "livegrep {{timestamp}}",
+      "tags": {
+        "build_time": "{{timestamp}}"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "export DEBIAN_FRONTEND=noninteractive",
+        "sudo apt-get update",
+        "sudo apt-get install -y python-software-properties",
+        "sudo add-apt-repository -y ppa:ansible/ansible",
+        "sudo apt-get update",
+        "sudo apt-get install -y ansible"
+      ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/livegrep.yml",
+      "playbook_dir": "ansible"
+    }
+  ]
+}

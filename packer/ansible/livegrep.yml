@@ -1,0 +1,7 @@
+- name: Provision livegrep instances
+  hosts: all
+  sudo: yes
+  gather_facts: false
+  roles:
+    - base
+    - livegrep

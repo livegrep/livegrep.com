@@ -1,0 +1,22 @@
+- name: Enable passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^%sudo"
+    line: "%sudo ALL=(ALL) NOPASSWD: ALL"
+
+- name: Add user account
+  user:
+    name: "{{ item.name }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+  with_items: users
+
+- name: Add user SSH keys
+  authorized_key:
+    user: "{{ item.0.name }}"
+    key: "{{ item.1 }}"
+  with_subelements:
+    - users
+    - authorized_keys
