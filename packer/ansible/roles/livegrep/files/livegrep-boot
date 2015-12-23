@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eux
+cd /home/livegrep
+aws s3 cp s3://livegrep/config/BUILD .
+build_id=$(cat BUILD)
+aws s3 cp "s3://livegrep/builds/livegrep-${build_id}.tgz" /tmp/
+mkdir deploy
+tar -C deploy --strip-components=1 -xzf "/tmp/livegrep-${build_id}.tgz"
+rm "/tmp/livegrep-${build_id}.tgz"

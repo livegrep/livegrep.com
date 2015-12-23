@@ -3,3 +3,35 @@
     name: livegrep
     shell: /bin/bash
     append: yes
+
+- name: update apt
+  apt:
+    update_cache: yes
+
+- name: Install pip
+  apt:
+    name: python-pip
+
+- name: Install the awscli command-line tool
+  pip:
+    name: awscli
+
+- name: livegrep-boot.service
+  copy:
+    dest: /etc/systemd/system/livegrep-boot.service
+    src: livegrep-boot.service
+    owner: root
+    group: root
+
+- name: enable livegrep-boot
+  service:
+    name: livegrep-boot
+    enabled: true
+
+- name: livegrep-boot
+  copy:
+    dest: /home/livegrep/livegrep-boot
+    src: livegrep-boot
+    owner: livegrep
+    group: livegrep
+    mode: u=rwx,g=,o=
