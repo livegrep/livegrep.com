@@ -16,9 +16,15 @@ case "$livegrep_role" in
     web)
         aws s3 cp s3://livegrep/config/livegrep.json .
         systemctl start livegrep-web
+        systemctl status livegrep-web
+        public_ip="$(curl 169.254.169.254/latest/meta-data/public-ipv4)"
+        cli53 rc --replace livegrep.com "beta 60 A $public_ip"
         ;;
     backend)
         aws s3 cp s3://livegrep/indexes/"$livegrep_index".idx /home/livegrep/index.idx
         systemctl start livegrep-backend
+        systemctl status livegrep-backend
+        local_ip="$(curl 169.254.169.254/latest/meta-data/local-ipv4)"
+        cli53 rc --replace int.livegrep.com "$livegrep_index.backend 60 A $local_ip"
         ;;
 esac

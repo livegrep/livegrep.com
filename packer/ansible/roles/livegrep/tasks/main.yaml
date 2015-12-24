@@ -36,3 +36,9 @@
     owner: livegrep
     group: livegrep
     mode: u=rwx,g=,o=
+
+- name: cli53
+  get_url:
+    dest: /usr/local/bin/cli53
+    url: https://github.com/barnybug/cli53/releases/download/0.6.6/cli53-linux-amd64
+    mode: '0755'
