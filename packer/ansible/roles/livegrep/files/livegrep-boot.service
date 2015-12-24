@@ -3,7 +3,6 @@ Description=Download and install livegrep
 
 [Service]
 ExecStart=/home/livegrep/livegrep-boot
-User=livegrep
 
 [Install]
 WantedBy=multi-user.target

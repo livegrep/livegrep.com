@@ -4,6 +4,21 @@ cd /home/livegrep
 aws s3 cp s3://livegrep/config/BUILD .
 build_id=$(cat BUILD)
 aws s3 cp "s3://livegrep/builds/livegrep-${build_id}.tgz" /tmp/
-mkdir deploy
+mkdir -p deploy
 tar -C deploy --strip-components=1 -xzf "/tmp/livegrep-${build_id}.tgz"
 rm "/tmp/livegrep-${build_id}.tgz"
+
+curl 169.254.169.254/latest/user-data > /etc/user-data
+
+. /etc/user-data
+
+case "$livegrep_role" in
+    web)
+        aws s3 cp s3://livegrep/config/livegrep.json .
+        systemctl start livegrep-web
+        ;;
+    backend)
+        aws s3 cp s3://livegrep/indexes/"$livegrep_index".idx /home/livegrep/index.idx
+        systemctl start livegrep-backend
+        ;;
+esac

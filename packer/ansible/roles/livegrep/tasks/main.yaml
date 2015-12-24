@@ -16,12 +16,13 @@
   pip:
     name: awscli
 
-- name: livegrep-boot.service
+- name: install service files
   copy:
-    dest: /etc/systemd/system/livegrep-boot.service
-    src: livegrep-boot.service
+    dest: '/etc/systemd/system/{{item}}.service'
+    src: '{{item}}.service'
     owner: root
     group: root
+  with_items: services
 
 - name: enable livegrep-boot
   service:
