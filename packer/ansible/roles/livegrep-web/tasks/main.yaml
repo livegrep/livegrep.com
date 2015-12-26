@@ -1,0 +1,26 @@
+- name: livegrep config file
+  template:
+    src: livegrep.json.j2
+    dest: /home/livegrep/livegrep.json
+
+- name: livegrep-web.service
+  copy:
+    src: livegrep-web.service
+    dest: /etc/systemd/system/livegrep-web.service
+    owner: root
+    group: root
+
+- name: start livegrep-web
+  service:
+    name: livegrep-web
+    state: started
+
+- name: configure DNS
+  route53:
+    command: create
+    type: A
+    zone: livegrep.com
+    record: beta.livegrep.com
+    ttl: 60
+    value: '{{ansible_ec2_public_ipv4}}'
+    overwrite: true

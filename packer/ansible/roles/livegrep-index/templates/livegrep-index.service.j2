@@ -1,0 +1,7 @@
+[Unit]
+Description=Livegrep index: {{livegrep_index}}
+
+[Service]
+ExecStart=/home/livegrep/deploy/bin/codesearch -listen tcp://0.0.0.0:8910 -load_index /home/livegrep/{{livegrep_index}}.idx
+User=livegrep
+Restart=always

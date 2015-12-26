@@ -1,5 +1,0 @@
----
-services:
-  - livegrep-boot
-  - livegrep-web
-  - livegrep-backend

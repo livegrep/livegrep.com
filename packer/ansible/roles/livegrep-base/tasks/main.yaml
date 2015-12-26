@@ -1,0 +1,51 @@
+- name: Add service user
+  user:
+    name: livegrep
+    shell: /bin/bash
+    append: yes
+
+- name: update apt
+  apt:
+    update_cache: yes
+
+- name: Install pip
+  apt:
+    name: python-pip
+
+- name: Install the awscli command-line tool
+  pip:
+    name: awscli
+
+- name: Install boto
+  pip:
+    name: boto
+
+- name: cli53
+  get_url:
+    dest: /usr/local/bin/cli53
+    url: https://github.com/barnybug/cli53/releases/download/0.6.6/cli53-linux-amd64
+    mode: '0755'
+
+- name: download livegrep
+  s3:
+    bucket: livegrep
+    object: builds/livegrep-{{livegrep_revision}}.tgz
+    dest: /tmp/livegrep.tgz
+    mode: get
+
+- name: create livegrep build dir
+  file:
+    path: /home/livegrep/builds/
+    state: directory
+
+- name: unpack livegrep
+  unarchive:
+    src: /tmp/livegrep.tgz
+    dest: /home/livegrep/builds/
+    copy: false
+
+- name: create livegrep deploy link
+  file:
+    path: /home/livegrep/deploy
+    state: link
+    src: builds/livegrep-{{livegrep_revision}}

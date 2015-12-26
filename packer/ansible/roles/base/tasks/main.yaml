@@ -20,3 +20,6 @@
   with_subelements:
     - users
     - authorized_keys
+
+- name: ec2 facts
+  action: ec2_facts

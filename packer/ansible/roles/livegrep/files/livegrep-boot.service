@@ -1,8 +1,0 @@
-[Unit]
-Description=Download and install livegrep
-
-[Service]
-ExecStart=/home/livegrep/livegrep-boot
-
-[Install]
-WantedBy=multi-user.target

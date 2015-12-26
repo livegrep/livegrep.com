@@ -23,11 +23,6 @@
         "sudo apt-get update",
         "sudo apt-get install -y ansible"
       ]
-    },
-    {
-      "type": "ansible-local",
-      "playbook_file": "ansible/livegrep.yml",
-      "playbook_dir": "ansible"
     }
   ]
 }

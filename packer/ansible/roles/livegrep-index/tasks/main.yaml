@@ -1,0 +1,35 @@
+- name: fetch livegrep index
+  s3:
+    bucket: livegrep
+    object: indexes/{{livegrep_index}}.idx
+    dest: /home/livegrep/{{livegrep_index}}.idx.tmp
+    mode: get
+    overwrite: true
+
+- name: move index into place
+  command: mv -f '{{livegrep_index}}.idx.tmp' '{{livegrep_index}}.idx'
+  args:
+    chdir: /home/livegrep
+
+- name: livegrep-index.service
+  template:
+    src: livegrep-index.service.j2
+    dest: /etc/systemd/system/livegrep-index.service
+    owner: root
+    group: root
+
+- name: start livegrep-index
+  service:
+    name: livegrep-index
+    state: started
+
+- name: configure DNS
+  route53:
+    command: create
+    type: A
+    zone: int.livegrep.com
+    private_zone: true
+    record: '{{livegrep_index}}.backend.int.livegrep.com'
+    ttl: 60
+    value: '{{ansible_ec2_local_ipv4}}'
+    overwrite: true
