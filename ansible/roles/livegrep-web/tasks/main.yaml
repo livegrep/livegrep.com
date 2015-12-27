@@ -45,7 +45,7 @@
     command: create
     type: A
     zone: livegrep.com
-    record: beta.livegrep.com
+    record: '{{livegrep_domain}}'
     ttl: 60
     value: '{{ansible_ec2_public_ipv4}}'
     overwrite: true
