@@ -27,7 +27,7 @@
     sudo -u letsencrypt sh -c '
       credstash -r us-west-2 get livegrep-web/certs/{{livegrep_domain}} \
         role=livegrep-web domain={{livegrep_domain}} | \
-        openssl enc -d -a | \
+        openssl base64 -d | \
         tar -C /etc/letsencrypt -xz
     '
   args:

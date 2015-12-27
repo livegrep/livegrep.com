@@ -32,7 +32,7 @@
 
 - name: fetch letsencrypt account key
   shell: >-
-    sudo -u letsencrypt sh -c 'credstash -r us-west-2 get letsencrypt/accounts role=letsencrypt | openssl enc -d -a | tar -C /etc/letsencrypt -xz'
+    sudo -u letsencrypt sh -c 'credstash -r us-west-2 get letsencrypt/accounts role=letsencrypt | openssl base64 | tar -C /etc/letsencrypt -xz'
   args:
     creates:
       /etc/letsencrypt/accounts
