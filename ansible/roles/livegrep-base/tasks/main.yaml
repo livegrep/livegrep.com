@@ -4,28 +4,6 @@
     shell: /bin/bash
     append: yes
 
-- name: update apt
-  apt:
-    update_cache: yes
-
-- name: Install pip
-  apt:
-    name: python-pip
-
-- name: Install the awscli command-line tool
-  pip:
-    name: awscli
-
-- name: Install boto
-  pip:
-    name: boto
-
-- name: cli53
-  get_url:
-    dest: /usr/local/bin/cli53
-    url: https://github.com/barnybug/cli53/releases/download/0.6.6/cli53-linux-amd64
-    mode: '0755'
-
 - name: download livegrep
   s3:
     bucket: livegrep

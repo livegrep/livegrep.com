@@ -1,3 +1,9 @@
 ---
 dependencies:
-  - { role: base }
+  - { role: postfix,
+      postfix_domain: 'livegrep.com',
+      postfix_use_smtp: true,
+      postfix_relayhost: '[smtp.mailgun.org]',
+      postfix_relayhost_user: '{{mailgun_username.stdout}}',
+      postfix_relayhost_pass: '{{mailgun_password.stdout}}'
+    }

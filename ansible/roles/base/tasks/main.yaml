@@ -23,3 +23,26 @@
 
 - name: ec2 facts
   action: ec2_facts
+
+- name: facts
+  action: setup
+
+- name: update apt
+  apt:
+    update_cache: yes
+
+- name: Install pip
+  apt:
+    name: python-pip
+
+- name: Install python deps
+  apt:
+    name: python-dev
+
+- name: Install python dependencies
+  pip:
+    name: '{{item}}'
+  with_items:
+    - awscli
+    - boto
+    - credstash
