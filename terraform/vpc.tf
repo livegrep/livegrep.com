@@ -1,6 +1,8 @@
 
 resource "aws_vpc" "livegrep" {
   cidr_block = "10.0.1.0/24"
+  enable_dns_hostnames = true
+  enable_dns_support = true
 }
 
 # Create an internet gateway to give our subnet access to the outside world
@@ -33,7 +35,7 @@ resource "aws_security_group" "base" {
   ingress {
     from_port = -1
     to_port = -1
-    protocol = "ICMP"
+    protocol = "icmp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
