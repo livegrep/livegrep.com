@@ -10,6 +10,7 @@
     object: builds/livegrep-{{livegrep_revision}}.tgz
     dest: /tmp/livegrep.tgz
     mode: get
+    overwrite: false
 
 - name: create livegrep build dir
   file:
@@ -21,6 +22,7 @@
     src: /tmp/livegrep.tgz
     dest: /home/livegrep/builds/
     copy: false
+    creates: /home/livegrep/builds/livegrep-{{livegrep_revision}}
 
 - name: create livegrep deploy link
   file:

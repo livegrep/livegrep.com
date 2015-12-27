@@ -1,0 +1,38 @@
+---
+- name: letsencrypt dependencies
+  apt:
+    name: '{{item}}'
+  with_items:
+    - dialog
+    - libaugeas0
+    - libssl-dev
+    - libffi-dev
+    - ca-certificates
+
+- name: install letsencrypt
+  pip:
+    name: letsencrypt
+
+- name: Add letsencrypt user
+  user:
+    name: letsencrypt
+    shell: /bin/bash
+    append: yes
+
+- name: letsencrypt directories
+  file:
+    path: '{{item}}'
+    state: directory
+    owner: letsencrypt
+  with_items:
+    - /etc/letsencrypt
+    - /var/letsencrypt
+    - /var/lib/letsencrypt
+    - /var/log/letsencrypt
+
+- name: fetch letsencrypt account key
+  shell: >-
+    sudo -u letsencrypt sh -c 'credstash -r us-west-2 get letsencrypt/accounts role=letsencrypt | openssl enc -d -a | tar -C /etc/letsencrypt -xz'
+  args:
+    creates:
+      /etc/letsencrypt/accounts

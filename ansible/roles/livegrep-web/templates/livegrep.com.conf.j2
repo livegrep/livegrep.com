@@ -1,22 +1,21 @@
-# server {
-#   listen 80 default_server;
-#   server_name livegrep.com;
-#
-#   location / {
-#     rewrite ^ https://livegrep.com$request_uri? permanent;
-#   }
-# }
+server {
+  listen 80 default_server;
+  server_name {{livegrep_domain}};
+
+  location / {
+    rewrite ^ https://{{livegrep_domain}}$request_uri? permanent;
+  }
+}
 
 server {
-  # listen 443 ssl;
-  listen 80 default_server;
-  server_name livegrep.com;
+  listen 443 ssl;
+  server_name {{livegrep_domain}};
 
-  # ssl_certificate /etc/letsencrypt/live/livegrep.com/fullchain.pem;
-  # ssl_certificate_key /etc/letsencrypt/live/livegrep.com/privkey.pem;
+  ssl_certificate /etc/letsencrypt/live/{{livegrep_domain}}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{livegrep_domain}}/privkey.pem;
 
   location /.well-known/ {
-    root /home/livegrep/web/;
+    root /var/letsencrypt/;
   }
 
   location / {
