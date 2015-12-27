@@ -2,6 +2,7 @@
   template:
     src: livegrep.json.j2
     dest: /home/livegrep/livegrep.json
+  notify: reload livegrep-web
 
 - name: livegrep-web.service
   copy:
@@ -14,6 +15,12 @@
   service:
     name: livegrep-web
     state: started
+
+- name: livegrep nginx site
+  template:
+    dest: /etc/nginx/conf.d/livegrep.com.conf
+    src: livegrep.com.conf.j2
+  notify: reload nginx
 
 - name: configure DNS
   route53:

@@ -4,7 +4,7 @@
     {% for idx in livegrep_indexes %}
         {
             "id": "{{idx.id}}",
-            "addr": "{{idx.id}}.backend.int.livegrep.com:8910"
+            "addr": "{{idx.id}}.backend.int.livegrep.com:9999"
         }
     {% endfor %}
     ],
@@ -13,5 +13,5 @@
       "mailto": "nelhage@nelhage.com"
     },
     "reverse_proxy": true,
-    "listen": "0.0.0.0:9999"
+    "listen": "0.0.0.0:8910"
 }

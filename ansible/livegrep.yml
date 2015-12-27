@@ -3,8 +3,6 @@
   sudo: yes
   gather_facts: false
   roles:
-    - base
-    - mailgun
     - '{{role}}'
   vars:
     livegrep_revision: 21e93ce462

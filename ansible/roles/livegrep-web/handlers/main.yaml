@@ -1,0 +1,5 @@
+---
+- name: reload livegrep-web
+  service:
+    name: livegrep-web
+    state: restarted

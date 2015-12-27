@@ -73,12 +73,6 @@ resource "aws_security_group" "livegrep_frontend" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  ingress {
-    from_port   = 9999
-    to_port     = 9999
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
 
 resource "aws_security_group" "livegrep_backend" {
@@ -86,10 +80,9 @@ resource "aws_security_group" "livegrep_backend" {
   description = "livegrep backend index server"
   vpc_id      = "${aws_vpc.livegrep.id}"
 
-  # HTTP access from anywhere
   ingress {
-    from_port   = 8910
-    to_port     = 8910
+    from_port   = 9999
+    to_port     = 9999
     protocol    = "tcp"
     security_groups = ["${aws_security_group.livegrep_frontend.id}"]
   }

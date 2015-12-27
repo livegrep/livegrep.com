@@ -1,0 +1,27 @@
+---
+- name: install nginx
+  apt:
+    name: nginx
+
+- name: remove default site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: nginx.conf
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify: reload nginx
+
+- name: ssl.conf
+  template:
+    src: ssl.conf.j2
+    dest: /etc/nginx/conf.d/ssl.conf
+  notify: reload nginx
+
+- name: dhparam.pem
+  copy:
+    src: dhparam.pem
+    dest: /etc/ssl/certs/dhparam.pem
+  notify: reload nginx
