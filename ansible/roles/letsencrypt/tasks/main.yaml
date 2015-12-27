@@ -30,6 +30,13 @@
     - /var/lib/letsencrypt
     - /var/log/letsencrypt
 
+- name: credstash-store-certs
+  copy:
+    dest: /usr/local/bin/credstash-store-certs
+    src: store-certs
+    mode: 0755
+    owner: root
+
 - name: fetch letsencrypt account key
   shell: >-
     sudo -u letsencrypt sh -c 'credstash -r us-west-2 get letsencrypt/accounts role=letsencrypt | openssl base64 -d | tar -C /etc/letsencrypt -xz'

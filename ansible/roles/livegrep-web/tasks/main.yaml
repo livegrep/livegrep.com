@@ -33,13 +33,6 @@
   args:
     creates: '/etc/letsencrypt/live/{{livegrep_domain}}'
 
-- name: livegrep-store-certs
-  template:
-    dest: /home/letsencrypt/livegrep-store-certs
-    src: livegrep-store-certs.j2
-    mode: 0755
-    owner: root
-
 - name: configure DNS
   route53:
     command: create
