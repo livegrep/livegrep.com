@@ -22,6 +22,24 @@
     src: livegrep.com.conf.j2
   notify: reload nginx
 
+- name: fetch livegrep certificates
+  shell: |
+    sudo -u letsencrypt sh -c '
+      credstash -r us-west-2 get livegrep-web/certs/{{livegrep_domain}} \
+        role=livegrep-web domain={{livegrep_domain}} | \
+        openssl enc -d -a | \
+        tar -C /etc/letsencrypt -xz
+    '
+  args:
+    creates: '/etc/letsencrypt/live/{{livegrep_domain}}'
+
+- name: livegrep-store-certs
+  template:
+    dest: /home/letsencrypt/livegrep-store-certs
+    src: livegrep-store-certs.j2
+    mode: 0755
+    owner: root
+
 - name: configure DNS
   route53:
     command: create

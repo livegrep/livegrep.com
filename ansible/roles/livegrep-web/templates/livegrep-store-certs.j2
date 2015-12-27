@@ -1,0 +1,10 @@
+#!/bin/bash
+set -eu
+
+domain="{{livegrep_domain}}"
+credstash -r us-west-2 put -a \
+  "livegrep-web/certs/$domain" \
+  "$(tar -C /etc/letsencrypt/ -cz \
+      "live/$domain" \
+      "archive/$domain" | openssl enc -a)" \
+  role=livegrep-web "domain=$domain"

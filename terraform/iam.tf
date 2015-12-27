@@ -147,6 +147,28 @@ resource "aws_iam_role_policy" "livegrep_frontend_r53" {
 EOF
 }
 
+resource "aws_iam_role_policy" "livegrep_frontend_certs" {
+    name = "livegrep_frontend_certs"
+    role = "${aws_iam_role.livegrep_frontend.id}"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:PutItem"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:${var.region}:807717602072:table/credential-store"
+            ]
+        }
+    ]
+}
+EOF
+}
+
+
 resource "aws_iam_role_policy" "livegrep_backend_r53" {
     name = "livegrep_backend_r53"
     role = "${aws_iam_role.livegrep_backend.id}"

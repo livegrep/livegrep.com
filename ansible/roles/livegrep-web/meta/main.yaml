@@ -1,3 +1,4 @@
 ---
 dependencies:
   - { role: livegrep-base }
+  - { role: letsencrypt }
