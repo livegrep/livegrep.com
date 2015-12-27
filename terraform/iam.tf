@@ -72,25 +72,34 @@ resource "aws_iam_policy" "livegrep_s3" {
 EOF
 }
 
-resource "aws_iam_policy" "livegrep_credstash_ddb" {
-    name = "livegrep-credstash-ddb"
+resource "aws_iam_policy" "livegrep_common" {
+    name = "livegrep-common"
     path = "/"
-    description = "readonly access to the credstash table"
+    description = "livegrep base IAM policy"
     policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "dynamodb:Scan",
-                "dynamodb:GetItem",
-                "dynamodb:Query"
-            ],
-            "Resource": [
-                "arn:aws:dynamodb:${var.region}:807717602072:table/credential-store"
-            ]
-        }
+      {
+        "Sid": "ReadCredstash",
+        "Effect": "Allow",
+        "Action": [
+          "dynamodb:Scan",
+          "dynamodb:GetItem",
+          "dynamodb:Query"
+        ],
+        "Resource": [
+          "arn:aws:dynamodb:${var.region}:807717602072:table/credential-store"
+        ]
+      },
+      {
+        "Sid": "DescribeInstances",
+        "Effect": "Allow",
+        "Action": [
+          "ec2:DescribeInstances"
+        ],
+        "Resource": "*"
+      }
     ]
 }
 EOF
@@ -105,13 +114,13 @@ resource "aws_iam_policy_attachment" "livegrep_s3_attachment" {
   policy_arn = "${aws_iam_policy.livegrep_s3.arn}"
 }
 
-resource "aws_iam_policy_attachment" "livegrep_credstash_attachment" {
-  name = "livegrep-credstash-ro-attach"
+resource "aws_iam_policy_attachment" "livegrep_common_attachment" {
+  name = "livegrep-common-attachment"
   roles = [
     "${aws_iam_role.livegrep_frontend.name}",
     "${aws_iam_role.livegrep_backend.name}",
   ]
-  policy_arn = "${aws_iam_policy.livegrep_credstash_ddb.arn}"
+  policy_arn = "${aws_iam_policy.livegrep_common.arn}"
 }
 
 resource "aws_iam_role_policy" "livegrep_frontend_r53" {
