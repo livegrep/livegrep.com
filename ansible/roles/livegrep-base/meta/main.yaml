@@ -1,6 +1,7 @@
 ---
 dependencies:
   - { role: base }
+  - { role: papertrail }
   - { role: mailgun }
   - { role: nginx }
   - { role: postfix,

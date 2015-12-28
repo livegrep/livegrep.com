@@ -1,0 +1,6 @@
+$DefaultNetstreamDriverCAFile /etc/papertrail-bundle.pem
+$ActionSendStreamDriver gtls
+$ActionSendStreamDriverMode 1
+$ActionSendStreamDriverAuthMode x509/name
+$ActionSendStreamDriverPermittedPeer *.papertrailapp.com
+*.*          @@{{papertrail_endpoint.stdout}}

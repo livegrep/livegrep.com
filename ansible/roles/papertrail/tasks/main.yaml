@@ -1,0 +1,18 @@
+- name: install rsyslog-gnutls
+  apt:
+    name: rsyslog-gnutls
+
+- name: papertrail ca bundle
+  get_url:
+    url: https://papertrailapp.com/tools/papertrail-bundle.pem
+    dest: /etc/papertrail-bundle.pem
+
+- name: get papertrail url
+  command: credstash -r us-west-2 get papertrail/endpoint role=papertrail
+  register: papertrail_endpoint
+
+- name: papertrail rsyslog conf
+  template:
+    src: papertrail.conf.j2
+    dest: /etc/rsyslog.d/99-papertrail.conf
+  notify: reload rsyslog

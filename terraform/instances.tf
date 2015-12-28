@@ -10,6 +10,12 @@ resource "aws_autoscaling_group" "livegrep_frontend" {
   force_delete = true
   launch_configuration = "${aws_launch_configuration.livegrep_frontend.name}"
 
+  tag {
+    key = "role"
+    value = "livegrep-web"
+    propagate_at_launch = true
+  }
+
   lifecycle {
     create_before_destroy = true
   }
@@ -56,6 +62,17 @@ resource "aws_autoscaling_group" "livegrep_backend_linux" {
   health_check_type = "EC2"
   force_delete = true
   launch_configuration = "${aws_launch_configuration.livegrep_backend_linux.name}"
+
+  tag {
+    key = "role"
+    value = "livegrep-index"
+    propagate_at_launch = true
+  }
+  tag {
+    key = "livegrep_index"
+    value = "linux"
+    propagate_at_launch = true
+  }
 
   lifecycle {
     create_before_destroy = true
