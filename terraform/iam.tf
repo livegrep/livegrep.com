@@ -76,7 +76,7 @@ resource "aws_iam_policy" "livegrep_common" {
           "dynamodb:Query"
         ],
         "Resource": [
-          "arn:aws:dynamodb:${var.region}:807717602072:table/credential-store"
+          "arn:aws:dynamodb:${var.region}:${var.account_id}:table/credential-store"
         ]
       },
       {
@@ -94,7 +94,7 @@ resource "aws_iam_policy" "livegrep_common" {
         "Action": [
           "kms:Decrypt"
         ],
-        "Resource": ["arn:aws:kms:us-west-2:807717602072:key/ba355fa9-df82-4b0a-be55-1b8f253b4947"],
+        "Resource": ["arn:aws:kms:us-west-2:${var.account_id}:key/${var.credstash_keyid}"],
         "Condition": {
           "StringEquals": {
             "kms:EncryptionContext:role": [
@@ -166,7 +166,7 @@ resource "aws_iam_role_policy" "livegrep_frontend_creds" {
         "Action": [
           "kms:Decrypt"
         ],
-        "Resource": ["arn:aws:kms:us-west-2:807717602072:key/ba355fa9-df82-4b0a-be55-1b8f253b4947"],
+        "Resource": ["arn:aws:kms:us-west-2:${var.account_id}:key/${var.credstash_keyid}"],
         "Condition": {
           "StringEquals": {
             "kms:EncryptionContext:role": [
@@ -182,7 +182,7 @@ resource "aws_iam_role_policy" "livegrep_frontend_creds" {
         "Action": [
           "kms:GenerateDataKey"
         ],
-        "Resource": ["arn:aws:kms:us-west-2:807717602072:key/ba355fa9-df82-4b0a-be55-1b8f253b4947"],
+        "Resource": ["arn:aws:kms:us-west-2:${var.account_id}:key/${var.credstash_keyid}"],
         "Condition": {
           "StringEquals": {
             "kms:EncryptionContext:role": [
@@ -197,7 +197,7 @@ resource "aws_iam_role_policy" "livegrep_frontend_creds" {
           "dynamodb:PutItem"
         ],
         "Resource": [
-          "arn:aws:dynamodb:${var.region}:807717602072:table/credential-store"
+          "arn:aws:dynamodb:${var.region}:${var.account_id}:table/credential-store"
         ]
       }
     ]

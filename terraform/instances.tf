@@ -49,7 +49,7 @@ sudo add-apt-repository -y ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install -y ansible
 echo 'localhost ansible_connection=local' > /etc/ansible/hosts
-ansible-pull -e 'role=livegrep-web' -U https://github.com/nelhage/livegrep.com/ ansible/livegrep.yml
+ansible-pull -e 'role=livegrep-web' -U https://github.com/livegrep/livegrep.com/ ansible/livegrep.yml
 EOF
 }
 
@@ -107,7 +107,7 @@ sudo add-apt-repository -y ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install -y ansible
 echo 'localhost ansible_connection=local' > /etc/ansible/hosts
-ansible-pull -e 'role=livegrep-index' -e 'livegrep_index=linux' -U https://github.com/nelhage/livegrep.com/ ansible/livegrep.yml
+ansible-pull -e 'role=livegrep-index' -e 'livegrep_index=linux' -U https://github.com/livegrep/livegrep.com/ ansible/livegrep.yml
 EOF
 
   lifecycle {
