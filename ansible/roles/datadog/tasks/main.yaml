@@ -1,0 +1,29 @@
+---
+- name: datadog package repo key
+  copy:
+    dest: /etc/apt/trusted.gpg.d/datadog.gpg
+    src: datadog.gpg
+
+- name: datadog apt repo
+  apt_repository:
+    repo: 'deb http://apt.datadoghq.com/ stable main'
+    state: present
+
+- name: install datadog agent
+  apt:
+    name: datadog-agent
+
+- name: get datadog key
+  command: credstash -r us-west-2 get datadog/apikey role=datadog
+  register: datadog_apikey
+
+- name: datadog config file
+  template:
+    dest: /etc/dd-agent/datadog.conf
+    src: datadog.conf.j2
+  notify: restart datadog
+
+- name: start datadog
+  service:
+    name: datadog-agent
+    state: started

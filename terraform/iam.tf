@@ -99,7 +99,8 @@ resource "aws_iam_policy" "livegrep_common" {
             "kms:EncryptionContext:role": [
               "base",
               "mailgun",
-              "papertrail"
+              "papertrail",
+              "datadog"
             ]
           }
         }

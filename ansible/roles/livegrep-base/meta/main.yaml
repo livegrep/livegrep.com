@@ -2,6 +2,7 @@
 dependencies:
   - { role: base }
   - { role: papertrail }
+  - { role: datadog }
   - { role: mailgun }
   - { role: nginx }
   - { role: postfix,
