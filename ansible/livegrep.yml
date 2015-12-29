@@ -9,3 +9,4 @@
     livegrep_indexes:
       - id: linux
     livegrep_domain: livegrep.com
+    livegrep_bucket: livegrep

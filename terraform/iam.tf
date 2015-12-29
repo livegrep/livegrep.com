@@ -63,8 +63,8 @@ resource "aws_iam_policy" "livegrep_common" {
           "s3:ListBucket"
         ],
         "Resource": [
-          "arn:aws:s3:::livegrep/*",
-          "arn:aws:s3:::livegrep"
+          "arn:aws:s3:::${s3_bucket}/*",
+          "arn:aws:s3:::${s3_bucket}"
         ]
       },
       {

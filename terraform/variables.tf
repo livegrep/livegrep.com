@@ -12,3 +12,6 @@ variable "credstash_keyid" {
 variable "ssh_keyid" {
   default = "nelhage-1"
 }
+variable "s3_bucket" {
+  default = "livegrep"
+}
