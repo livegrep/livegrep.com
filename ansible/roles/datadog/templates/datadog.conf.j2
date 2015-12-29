@@ -24,7 +24,7 @@ api_key: {{datadog_apikey.stdout}}
 #hostname: mymachine.mydomain
 
 # Set the host's tags
-# tags:
+tags: role={{role}}
 
 # Add one "dd_check:checkname" tag per running check. It makes it possible to slice
 # and dice per monitored app (= running Agent Check) on Datadog's backend.
@@ -205,7 +205,7 @@ use_mount: no
 # Logging
 # ========================================================================== #
 
-# log_level: INFO
+log_level: WARN
 
 # collector_log_file: /var/log/datadog/collector.log
 # forwarder_log_file: /var/log/datadog/forwarder.log
