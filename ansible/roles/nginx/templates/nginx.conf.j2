@@ -30,8 +30,8 @@ http {
         # Logging Settings
         ##
 
-        access_log syslog:server=unix:/dev/log;
-        error_log syslog:server=unix:/dev/log;
+        access_log syslog:server=unix:/dev/log,nohostname;
+        error_log syslog:server=unix:/dev/log,nohostname;
 
         ##
         # Gzip Settings

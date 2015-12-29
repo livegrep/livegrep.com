@@ -1,4 +1,14 @@
 ---
+- name: nginx package repo key
+  copy:
+    dest: /etc/apt/trusted.gpg.d/nginx.gpg
+    src: nginx.gpg
+
+- name: nginx package repo
+  apt_repository:
+    repo: 'deb http://nginx.org/packages/mainline/ubuntu/ {{ansible_lsb.codename}} nginx'
+    state: present
+
 - name: install nginx
   apt:
     name: nginx
