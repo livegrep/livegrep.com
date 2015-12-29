@@ -47,31 +47,6 @@ resource "aws_iam_instance_profile" "livegrep_backend" {
     roles = ["${aws_iam_role.livegrep_backend.name}"]
 }
 
-resource "aws_iam_policy" "livegrep_s3" {
-    name = "livegrep-s3-ro"
-    path = "/"
-    description = "readonly access to the livegrep S3 bucket"
-    policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:HeadObject",
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::livegrep/*",
-                "arn:aws:s3:::livegrep"
-            ]
-        }
-    ]
-}
-EOF
-}
-
 resource "aws_iam_policy" "livegrep_common" {
     name = "livegrep-common"
     path = "/"
@@ -80,6 +55,18 @@ resource "aws_iam_policy" "livegrep_common" {
 {
     "Version": "2012-10-17",
     "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "s3:GetObject",
+          "s3:HeadObject",
+          "s3:ListBucket"
+        ],
+        "Resource": [
+          "arn:aws:s3:::livegrep/*",
+          "arn:aws:s3:::livegrep"
+        ]
+      },
       {
         "Sid": "ReadCredstash",
         "Effect": "Allow",
@@ -99,19 +86,27 @@ resource "aws_iam_policy" "livegrep_common" {
           "ec2:DescribeInstances"
         ],
         "Resource": "*"
+      },
+      {
+        "Sid": "CredstashDecryptCommon",
+        "Effect": "Allow",
+        "Action": [
+          "kms:Decrypt"
+        ],
+        "Resource": ["arn:aws:kms:us-west-2:807717602072:key/ba355fa9-df82-4b0a-be55-1b8f253b4947"],
+        "Condition": {
+          "StringEquals": {
+            "kms:EncryptionContext:role": [
+              "base",
+              "mailgun",
+              "papertrail"
+            ]
+          }
+        }
       }
     ]
 }
 EOF
-}
-
-resource "aws_iam_policy_attachment" "livegrep_s3_attachment" {
-  name = "livegrep-s3-ro-attach"
-  roles = [
-    "${aws_iam_role.livegrep_frontend.name}",
-    "${aws_iam_role.livegrep_backend.name}",
-  ]
-  policy_arn = "${aws_iam_policy.livegrep_s3.arn}"
 }
 
 resource "aws_iam_policy_attachment" "livegrep_common_attachment" {
@@ -156,27 +151,57 @@ resource "aws_iam_role_policy" "livegrep_frontend_r53" {
 EOF
 }
 
-resource "aws_iam_role_policy" "livegrep_frontend_certs" {
-    name = "livegrep_frontend_certs"
+resource "aws_iam_role_policy" "livegrep_frontend_creds" {
+    name = "livegrep_frontend_creds"
     role = "${aws_iam_role.livegrep_frontend.id}"
     policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "dynamodb:PutItem"
-            ],
-            "Resource": [
-                "arn:aws:dynamodb:${var.region}:807717602072:table/credential-store"
+      {
+        "Sid": "CredstashDecryptFrontend",
+        "Effect": "Allow",
+        "Action": [
+          "kms:Decrypt"
+        ],
+        "Resource": ["arn:aws:kms:us-west-2:807717602072:key/ba355fa9-df82-4b0a-be55-1b8f253b4947"],
+        "Condition": {
+          "StringEquals": {
+            "kms:EncryptionContext:role": [
+              "letsencrypt",
+              "livegrep-web"
             ]
+          }
         }
+      },
+      {
+        "Sid": "CredstashEncryptCerts",
+        "Effect": "Allow",
+        "Action": [
+          "kms:GenerateDataKey"
+        ],
+        "Resource": ["arn:aws:kms:us-west-2:807717602072:key/ba355fa9-df82-4b0a-be55-1b8f253b4947"],
+        "Condition": {
+          "StringEquals": {
+            "kms:EncryptionContext:role": [
+              "livegrep-web"
+            ]
+          }
+        }
+      },
+      {
+        "Effect": "Allow",
+        "Action": [
+          "dynamodb:PutItem"
+        ],
+        "Resource": [
+          "arn:aws:dynamodb:${var.region}:807717602072:table/credential-store"
+        ]
+      }
     ]
 }
 EOF
 }
-
 
 resource "aws_iam_role_policy" "livegrep_backend_r53" {
     name = "livegrep_backend_r53"
