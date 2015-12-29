@@ -30,8 +30,20 @@
     dest: /etc/nginx/conf.d/ssl.conf
   notify: reload nginx
 
+- name: status.conf
+  template:
+    src: status.conf.j2
+    dest: /etc/nginx/conf.d/status.conf
+  notify: reload nginx
+
 - name: dhparam.pem
   copy:
     src: dhparam.pem
     dest: /etc/ssl/certs/dhparam.pem
   notify: reload nginx
+
+- name: nginx datadog plugin
+  copy:
+    src: datadog-nginx.yaml
+    dest: /etc/dd-agent/conf.d/nginx.yaml
+  notify: restart datadog
