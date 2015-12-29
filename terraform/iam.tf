@@ -83,7 +83,8 @@ resource "aws_iam_policy" "livegrep_common" {
         "Sid": "DescribeInstances",
         "Effect": "Allow",
         "Action": [
-          "ec2:DescribeInstances"
+          "ec2:DescribeInstances",
+          "ec2:DescribeTags"
         ],
         "Resource": "*"
       },
