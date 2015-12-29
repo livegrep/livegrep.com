@@ -3,8 +3,9 @@ resource "aws_autoscaling_group" "livegrep_frontend" {
   vpc_zone_identifier = ["${aws_subnet.default.id}"]
 
   name = "livegrep-frontend"
-  max_size = 1
   min_size = 1
+  desired_capacity = 1
+  max_size = 2
   health_check_grace_period = 300
   health_check_type = "EC2"
   force_delete = true
@@ -56,8 +57,9 @@ resource "aws_autoscaling_group" "livegrep_backend_linux" {
   availability_zones = ["${aws_subnet.default.availability_zone}"]
   vpc_zone_identifier = ["${aws_subnet.default.id}"]
   name = "livegrep-backend-linux"
-  max_size = 1
   min_size = 1
+  desired_capacity = 1
+  max_size = 2
   health_check_grace_period = 300
   health_check_type = "EC2"
   force_delete = true
