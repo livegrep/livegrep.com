@@ -1,6 +1,9 @@
 server {
   listen 80 default_server;
-  server_name {{livegrep_domain}};
+  listen 443 ssl;
+  ssl_certificate /etc/letsencrypt/live/{{livegrep_domain}}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/{{livegrep_domain}}/privkey.pem;
+  server_name www.{{livegrep_domain}};
 
   location / {
     rewrite ^ https://{{livegrep_domain}}$request_uri? permanent;
