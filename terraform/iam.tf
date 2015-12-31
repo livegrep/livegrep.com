@@ -94,7 +94,7 @@ resource "aws_iam_policy" "livegrep_common" {
         "Action": [
           "kms:Decrypt"
         ],
-        "Resource": ["arn:aws:kms:us-west-2:${var.account_id}:key/${var.credstash_keyid}"],
+        "Resource": ["arn:aws:kms:${var.region}:${var.account_id}:alias/credstash"],
         "Condition": {
           "StringEquals": {
             "kms:EncryptionContext:role": [
@@ -166,7 +166,7 @@ resource "aws_iam_role_policy" "livegrep_frontend_creds" {
         "Action": [
           "kms:Decrypt"
         ],
-        "Resource": ["arn:aws:kms:us-west-2:${var.account_id}:key/${var.credstash_keyid}"],
+        "Resource": ["arn:aws:kms:${var.region}:${var.account_id}:alias/credstash"],
         "Condition": {
           "StringEquals": {
             "kms:EncryptionContext:role": [
@@ -182,7 +182,7 @@ resource "aws_iam_role_policy" "livegrep_frontend_creds" {
         "Action": [
           "kms:GenerateDataKey"
         ],
-        "Resource": ["arn:aws:kms:us-west-2:${var.account_id}:key/${var.credstash_keyid}"],
+        "Resource": ["arn:aws:kms:${var.region}:${var.account_id}:alias/credstash"],
         "Condition": {
           "StringEquals": {
             "kms:EncryptionContext:role": [
