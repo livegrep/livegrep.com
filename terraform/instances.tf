@@ -110,6 +110,10 @@ echo 'localhost ansible_connection=local' > /etc/ansible/hosts
 ansible-pull -e 'role=livegrep-index' -e 'livegrep_index=linux' -e 'livegrep_bucket=${s3_bucket}' -U https://github.com/livegrep/livegrep.com/ ansible/livegrep.yml
 EOF
 
+  root_block_device {
+    volume_size = 12
+  }
+
   lifecycle {
     create_before_destroy = true
   }
