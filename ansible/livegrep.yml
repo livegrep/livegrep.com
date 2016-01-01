@@ -10,3 +10,4 @@
       - id: linux
     livegrep_domain: livegrep.com
     livegrep_bucket: livegrep
+    livegrep_mailto: nelhage@nelhage.com

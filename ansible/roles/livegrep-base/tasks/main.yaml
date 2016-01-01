@@ -4,6 +4,14 @@
     shell: /bin/bash
     append: yes
 
+- name: configure root mail forwarding
+  template:
+    src: root-forward.j2
+    dest: /root/.forward
+    mode: 0644
+    owner: root
+    group: root
+
 - name: download livegrep
   s3:
     bucket: livegrep
