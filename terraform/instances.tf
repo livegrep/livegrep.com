@@ -23,7 +23,7 @@ resource "aws_autoscaling_group" "livegrep_frontend" {
 }
 
 resource "aws_launch_configuration" "livegrep_frontend" {
-  image_id = "ami-38796759"
+  image_id = "${lookup(var.amis, var.region)}"
   instance_type = "t2.micro"
   key_name = "nelhage-1"
 
@@ -82,7 +82,7 @@ resource "aws_autoscaling_group" "livegrep_backend_linux" {
 }
 
 resource "aws_launch_configuration" "livegrep_backend_linux" {
-  image_id = "ami-38796759"
+  image_id = "${lookup(var.amis, var.region)}"
   instance_type = "t2.small"
   key_name = "nelhage-1"
 

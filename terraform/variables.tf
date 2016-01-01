@@ -15,3 +15,9 @@ variable "ssh_keyid" {
 variable "s3_bucket" {
   default = "livegrep"
 }
+
+variable "amis" {
+    default = {
+        us-west-2 = "ami-38796759"
+    }
+}

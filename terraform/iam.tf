@@ -47,6 +47,31 @@ resource "aws_iam_instance_profile" "livegrep_backend" {
     roles = ["${aws_iam_role.livegrep_backend.name}"]
 }
 
+resource "aws_iam_role" "livegrep_indexer" {
+  name = "livegrep_indexer"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_instance_profile" "livegrep_indexer" {
+    name = "livegrep_indexer"
+    roles = ["${aws_iam_role.livegrep_indexer.name}"]
+}
+
+
 resource "aws_iam_policy" "livegrep_common" {
     name = "livegrep-common"
     path = "/"
@@ -116,6 +141,7 @@ resource "aws_iam_policy_attachment" "livegrep_common_attachment" {
   roles = [
     "${aws_iam_role.livegrep_frontend.name}",
     "${aws_iam_role.livegrep_backend.name}",
+    "${aws_iam_role.livegrep_indexer.name}",
   ]
   policy_arn = "${aws_iam_policy.livegrep_common.arn}"
 }
@@ -233,6 +259,28 @@ resource "aws_iam_role_policy" "livegrep_backend_r53" {
                 "arn:aws:route53:::hostedzone/${aws_route53_zone.int_livegrep_com.id}"
             ]
         }
+    ]
+}
+EOF
+}
+
+
+resource "aws_iam_role_policy" "livegrep_indexer_s3" {
+    name = "livegrep_indexer_s3"
+    role = "${aws_iam_role.livegrep_indexer.id}"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "s3:PutObject"
+        ],
+        "Resource": [
+          "arn:aws:s3:::${var.s3_bucket}/indexes/*"
+        ]
+      }
     ]
 }
 EOF

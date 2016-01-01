@@ -8,7 +8,7 @@
   s3:
     bucket: livegrep
     object: builds/livegrep-{{livegrep_revision}}.tgz
-    dest: /tmp/livegrep.tgz
+    dest: /tmp/livegrep-{{livegrep_revision}}.tgz
     mode: get
     overwrite: false
 
@@ -19,7 +19,7 @@
 
 - name: unpack livegrep
   unarchive:
-    src: /tmp/livegrep.tgz
+    src: /tmp/livegrep-{{livegrep_revision}}.tgz
     dest: /home/livegrep/builds/
     copy: false
     creates: /home/livegrep/builds/livegrep-{{livegrep_revision}}

@@ -87,3 +87,9 @@ resource "aws_security_group" "livegrep_backend" {
     security_groups = ["${aws_security_group.livegrep_frontend.id}"]
   }
 }
+
+resource "aws_security_group" "livegrep_indexer" {
+  name        = "livegrep-indexer"
+  description = "livegrep indexer"
+  vpc_id      = "${aws_vpc.livegrep.id}"
+}
