@@ -4,7 +4,6 @@ dependencies:
   - { role: papertrail }
   - { role: datadog }
   - { role: mailgun }
-  - { role: nginx }
   - { role: postfix,
       postfix_domain: 'livegrep.com',
       postfix_use_smtp: true,
