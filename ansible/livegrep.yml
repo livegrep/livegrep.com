@@ -5,7 +5,7 @@
   roles:
     - '{{role}}'
   vars:
-    livegrep_revision: 21e93ce462
+    livegrep_revision: af6b74f40f
     livegrep_indexes:
       - id: linux
     livegrep_domain: livegrep.com
