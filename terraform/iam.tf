@@ -285,3 +285,25 @@ resource "aws_iam_role_policy" "livegrep_indexer_s3" {
 }
 EOF
 }
+
+
+resource "aws_iam_role_policy" "livegrep_indexer_ebs" {
+    name = "livegrep_indexer_s3"
+    role = "${aws_iam_role.livegrep_indexer.id}"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "s3:PutObject"
+        ],
+        "Resource": [
+          "arn:aws:s3:::${var.s3_bucket}/indexes/*"
+        ]
+      }
+    ]
+}
+EOF
+}
