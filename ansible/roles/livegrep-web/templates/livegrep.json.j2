@@ -5,7 +5,7 @@
         {
             "id": "{{idx.id}}",
             "addr": "{{idx.id}}.backend.int.livegrep.com:9999"
-        }
+        }{% if not loop.last %},{% endif %}
     {% endfor %}
     ],
     "google_analytics_id": "UA-10353960-3",
