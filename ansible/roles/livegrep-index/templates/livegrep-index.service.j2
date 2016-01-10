@@ -2,6 +2,6 @@
 Description=Livegrep index: {{livegrep_index}}
 
 [Service]
-ExecStart=/home/livegrep/deploy/bin/codesearch -listen tcp://0.0.0.0:9999 -load_index /home/livegrep/{{livegrep_index}}.idx
+ExecStart=/home/livegrep/deploy/bin/codesearch -listen tcp://0.0.0.0:9999 -load_index /home/livegrep/{{livegrep_index}}.idx -timeout {{livegrep_timeout}} -threads {{ansible_processor_cores+1}}
 User=livegrep
 Restart=always

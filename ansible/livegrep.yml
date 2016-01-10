@@ -11,3 +11,4 @@
     livegrep_domain: livegrep.com
     livegrep_bucket: livegrep
     livegrep_mailto: nelhage@nelhage.com
+    livegrep_timeout: 2500
