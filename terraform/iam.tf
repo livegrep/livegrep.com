@@ -286,22 +286,58 @@ resource "aws_iam_role_policy" "livegrep_indexer_s3" {
 EOF
 }
 
-
 resource "aws_iam_role_policy" "livegrep_indexer_ebs" {
-    name = "livegrep_indexer_s3"
+    name = "livegrep_indexer_ebs"
     role = "${aws_iam_role.livegrep_indexer.id}"
     policy = <<EOF
 {
     "Version": "2012-10-17",
     "Statement": [
       {
+        "Sid": "AttachVolume",
         "Effect": "Allow",
         "Action": [
-          "s3:PutObject"
+          "ec2:AttachVolume"
         ],
         "Resource": [
-          "arn:aws:s3:::${var.s3_bucket}/indexes/*"
+          "arn:aws:ec2:${var.region}:${var.account_id}:volume/${aws_ebs_volume.indexer_cache.id}",
+          "arn:aws:ec2:${var.region}:${var.account_id}:instance/*"
         ]
+      },
+      {
+        "Sid": "DescribeVolumes",
+        "Effect": "Allow",
+        "Action": [
+          "ec2:DescribeVolumes"
+        ],
+        "Resource": "*"
+      }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "livegrep_indexer_creds" {
+    name = "livegrep_indexer_creds"
+    role = "${aws_iam_role.livegrep_indexer.id}"
+    policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "CredstashIndexerFrontend",
+        "Effect": "Allow",
+        "Action": [
+          "kms:Decrypt"
+        ],
+        "Resource": ["arn:aws:kms:${var.region}:${var.account_id}:key/${var.credstash_keyid}"],
+        "Condition": {
+          "StringEquals": {
+            "kms:EncryptionContext:role": [
+              "livegrep-indexer"
+            ]
+          }
+        }
       }
     ]
 }

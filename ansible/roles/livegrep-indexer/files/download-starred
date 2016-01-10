@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+import requests
+import os
+import json
+import datetime
+import time
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
+key = os.environ.get('GITHUB_KEY', None)
+auth_headers = {}
+if key:
+    auth_headers['Authorization'] = "token %s" % (key,)
+u = 'https://api.github.com/search/repositories?q=stars:>0&sort=stars&order=desc&per_page=100'
+
+s = requests.Session()
+
+while True:
+    r = s.get(u, headers=auth_headers)
+    if r.status_code != 200:
+        if r.status_code == 403:
+            delay = int(r.headers['x-ratelimit-reset']) - time.time()
+            if delay > 0:
+                logging.info("ratelimited, sleeping %fs until %s..." % (delay, datetime.datetime.utcfromtimestamp(int(r.headers['x-ratelimit-reset']))))
+                time.sleep(delay + 1)
+        elif r.status_code >= 500:
+            logging.info("server error: %s" % (r.content,))
+            time.sleep(10)
+        else:
+            logging.info("unknown error: %s" % (repr(r),))
+            logging.info(r.text)
+        continue
+    buf = []
+    for repo in r.json()['items']:
+        print repo['owner']['login'] + "/" + repo['name']
+    if 'next' not in r.links:
+        break
+    u = r.links['next']['url']

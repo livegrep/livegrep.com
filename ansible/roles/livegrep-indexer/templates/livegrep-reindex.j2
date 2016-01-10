@@ -1,0 +1,28 @@
+#!/bin/bash
+set -eu
+cd /home/livegrep
+. credentials
+
+./deploy/bin/livegrep-github-reindex \
+  -name='Linux v4.3' \
+  -repo=torvalds/linux \
+  -revparse=false \
+  -revision=v4.3 \
+  -dir "$(pwd)/data/" \
+  -out "$(pwd)/data/linux.idx" \
+  -http
+
+./download-starred > REPOS
+
+./deploy/bin/livegrep-github-reindex \
+  -depth=1 \
+  -name='Github Top 10k' \
+  -revparse=false \
+  -http \
+  -dir "$(pwd)/data/" \
+  -out "$(pwd)/data/github.idx" \
+  $(while read repo; do echo -repo=$repo; done < REPOS)
+
+for idx in linux github; do
+    aws s3 cp "data/$idx.idx" "s3://livegrep/indexes/$idx.idx"
+done

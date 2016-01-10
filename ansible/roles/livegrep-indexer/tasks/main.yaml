@@ -1,0 +1,66 @@
+---
+- name: livegrep indexer volume
+  ec2_vol:
+    instance: '{{ansible_ec2_instance_id}}'
+    region: '{{ansible_ec2_placement_region}}'
+    name: livegrep-indexer-cache
+    device_name: sdf
+
+- name: make indexer filesystem
+  filesystem:
+    dev: /dev/xvdf
+    fstype: ext4
+
+- name: cache mountpoint
+  file:
+    path: /home/livegrep/data/
+    state: directory
+    owner: livegrep
+    group: livegrep
+
+- name: mount indexer cache
+  mount:
+    name: /home/livegrep/data/
+    state: mounted
+    fstype: ext4
+    opts: nofail
+    src: /dev/xvdf
+
+- name: chown mountpoint
+  file:
+    path: /home/livegrep/data/
+    state: directory
+    owner: livegrep
+    group: livegrep
+
+- name: get github key
+  command: credstash -r us-west-2 get github/oauth role=livegrep-indexer
+  register: github_oauth_key
+
+- name: github credentials files
+  template:
+    dest: /home/livegrep/credentials
+    src: credentials.j2
+    mode: 0400
+    owner: livegrep
+    group: livegrep
+
+- name: install requests
+  pip:
+    name: requests
+
+- name: github fetch script
+  copy:
+    dest: /home/livegrep/download-starred
+    src: download-starred
+    mode: 0755
+    owner: livegrep
+    group: livegrep
+
+- name: livegrep reindex script
+  template:
+    dest: /home/livegrep/livegrep-reindex
+    src: livegrep-reindex.j2
+    mode: 0755
+    owner: livegrep
+    group: livegrep

@@ -185,3 +185,12 @@ EOF
     create_before_destroy = true
   }
 }
+
+resource "aws_ebs_volume" "indexer_cache" {
+  availability_zone = "${aws_subnet.default.availability_zone}"
+  size = 120
+  type = "gp2"
+  tags {
+    Name = "livegrep-indexer-cache"
+  }
+}
