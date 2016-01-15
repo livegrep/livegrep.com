@@ -56,3 +56,21 @@
     - awscli
     - boto
     - credstash
+
+- name: download gof3r
+  get_url:
+    url: https://github.com/rlmcpherson/s3gof3r/releases/download/v0.5.0/gof3r_0.5.0_linux_amd64.tar.gz
+    dest: /var/cache/gof3r_0.5.0_linux_amd64.tar.gz
+
+- name: unpack gof3r
+  unarchive:
+    src: /var/cache/gof3r_0.5.0_linux_amd64.tar.gz
+    copy: no
+    dest: /var/cache/
+    creates: /var/cache/gof3r_0.5.0_linux_amd64
+
+- name: go3fr symlink
+  file:
+    path: /usr/local/bin/gof3r
+    state: link
+    src: /var/cache/gof3r_0.5.0_linux_amd64/gof3r
