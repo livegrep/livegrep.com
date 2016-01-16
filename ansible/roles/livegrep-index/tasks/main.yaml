@@ -21,7 +21,7 @@
 - name: livegrep-index.init
   template:
     src: livegrep-index.init.j2
-    dest: /etc/init/livegrep-index.service
+    dest: /etc/init/livegrep-index.init
     owner: root
     group: root
 

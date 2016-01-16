@@ -44,7 +44,7 @@ resource "aws_launch_configuration" "livegrep_frontend" {
 set -eux
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
-sudo apt-get install -y python-software-properties
+sudo apt-get install -y python-software-properties git
 sudo add-apt-repository -y ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install -y ansible
@@ -102,7 +102,7 @@ resource "aws_launch_configuration" "livegrep_backend_linux" {
 set -eux
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
-sudo apt-get install -y python-software-properties
+sudo apt-get install -y python-software-properties git
 sudo add-apt-repository -y ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install -y ansible
@@ -169,7 +169,7 @@ resource "aws_launch_configuration" "livegrep_backend_github" {
 set -eux
 export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update
-sudo apt-get install -y python-software-properties
+sudo apt-get install -y python-software-properties git
 sudo add-apt-repository -y ppa:ansible/ansible
 sudo apt-get update
 sudo apt-get install -y ansible
