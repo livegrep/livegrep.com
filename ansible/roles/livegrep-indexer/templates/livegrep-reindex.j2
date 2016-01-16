@@ -23,6 +23,9 @@ cd /home/livegrep
   -out "$(pwd)/data/github.idx" \
   $(while read repo; do echo -repo=$repo; done < REPOS)
 
+az=$(curl -s 169.254.169.254/latest/meta-data/placement/availability-zone)
+region=${az%[a-z]}
+
 for idx in linux github; do
-    aws s3 cp "data/$idx.idx" "s3://livegrep/indexes/$idx.idx"
+    gof3r cp --endpoint "s3-$region.amazonaws.com" "data/$idx.idx" "s3://livegrep/indexes/$idx.idx"
 done

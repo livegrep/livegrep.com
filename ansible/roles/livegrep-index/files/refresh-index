@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+az=$(curl -s 169.254.169.254/latest/meta-data/placement/availability-zone)
+region=${az%[a-z]}
+
+index="$1"
+
+cd /home/livegrep
+gof3r cp --endpoint "s3-$region.amazonaws.com" \
+      "s3://livegrep/indexes/$index.idx" "$index.idx.tmp"
+mv -f "$index.idx.tmp" "$index.idx"
+pkill codesearch

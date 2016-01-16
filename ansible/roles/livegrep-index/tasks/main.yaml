@@ -1,15 +1,29 @@
+- name: stat index
+  stat:
+    path: /home/livegrep/{{livegrep_index}}.idx
+    get_md5: false
+    get_checksum: false
+  register: livegrep_index_st
+
+- name: delete temp index
+  file:
+    path: /home/livegrep/{{livegrep_index}}.idx.tmp
+    state: absent
+  when: 'not livegrep_index_st.stat.exists'
+
 - name: fetch livegrep index
   s3:
     bucket: livegrep
     object: indexes/{{livegrep_index}}.idx
     dest: /home/livegrep/{{livegrep_index}}.idx.tmp
     mode: get
-    overwrite: true
+  when: 'not livegrep_index_st.stat.exists'
 
 - name: move index into place
   command: mv -f '{{livegrep_index}}.idx.tmp' '{{livegrep_index}}.idx'
   args:
     chdir: /home/livegrep
+  when: 'not livegrep_index_st.stat.exists'
 
 - name: livegrep-index.service
   template:
@@ -25,10 +39,33 @@
     owner: root
     group: root
 
+- name: livegrep-refresh-index.init
+  template:
+    src: livegrep-refresh-index.init.j2
+    dest: /etc/init/livegrep-refresh-index.conf
+    owner: root
+    group: root
+
 - name: start livegrep-index
   service:
     name: livegrep-index
     state: started
+
+- name: refresh-index script
+  copy:
+    dest: /home/livegrep/refresh-index
+    src: refresh-index
+    owner: livegrep
+    mode: 0755
+
+- name: livegrep-refresh-index crontab
+  cron:
+    name: livegrep-refresh-index
+    cron_file: livegrep-refresh-index {{livegrep_index}}
+    user: root
+    hour: 10
+    job: start livegrep-refresh-index
+    state: present
 
 - name: configure DNS
   route53:
