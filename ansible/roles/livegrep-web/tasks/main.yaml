@@ -24,7 +24,7 @@
 
 - name: fetch livegrep certificates
   shell: |
-    sudo -u letsencrypt sh -c '
+    sudo -u letsencrypt "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" sh -c '
       credstash -r us-west-2 get livegrep-web/certs/{{livegrep_domain}} \
         role=livegrep-web domain={{livegrep_domain}} | \
         openssl base64 -d | \

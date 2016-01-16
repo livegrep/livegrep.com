@@ -39,7 +39,7 @@
 
 - name: fetch letsencrypt account key
   shell: >-
-    sudo -u letsencrypt sh -c 'credstash -r us-west-2 get letsencrypt/accounts role=letsencrypt | openssl base64 -d | tar -C /etc/letsencrypt -xz'
+    sudo -u letsencrypt "AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION" sh -c 'credstash -r us-west-2 get letsencrypt/accounts role=letsencrypt | openssl base64 -d | tar -C /etc/letsencrypt -xz'
   args:
     creates:
       /etc/letsencrypt/accounts
