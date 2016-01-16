@@ -1,0 +1,16 @@
+description "livegrep index: {{livegrep_index}}"
+
+start on runlevel [2345]
+stop on starting rc RUNLEVEL=[016]
+
+setuid livegrep
+
+respawn
+respawn limit 10 5
+kill timeout 45
+
+console log
+
+script
+exec /home/livegrep/deploy/bin/codesearch -listen tcp://0.0.0.0:9999 -load_index /home/livegrep/{{livegrep_index}}.idx -timeout {{livegrep_timeout}} -threads {{ansible_processor_cores+1}}
+end script

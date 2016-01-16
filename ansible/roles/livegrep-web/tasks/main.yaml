@@ -11,6 +11,13 @@
     owner: root
     group: root
 
+- name: livegrep-web.conf
+  copy:
+    src: livegrep-web.init
+    dest: /etc/init/livegrep-web.conf
+    owner: root
+    group: root
+
 - name: start livegrep-web
   service:
     name: livegrep-web
