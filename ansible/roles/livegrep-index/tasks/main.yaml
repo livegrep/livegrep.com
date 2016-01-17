@@ -39,6 +39,13 @@
     owner: root
     group: root
 
+- name: livegrep-refresh-index.service
+  template:
+    src: livegrep-refresh-index.service.j2
+    dest: /etc/systemd/system/livegrep-refresh-index.service
+    owner: root
+    group: root
+
 - name: livegrep-refresh-index.init
   template:
     src: livegrep-refresh-index.init.j2

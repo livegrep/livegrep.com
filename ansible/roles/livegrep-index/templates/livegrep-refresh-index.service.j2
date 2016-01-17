@@ -1,0 +1,7 @@
+[Unit]
+Description=Reload livegrep index: {{livegrep_index}}
+
+[Service]
+ExecStart=/home/livegrep/refresh-index {{livegrep_index}}
+User=livegrep
+Restart=no
