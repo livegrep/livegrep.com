@@ -71,7 +71,7 @@
     cron_file: livegrep-refresh-index {{livegrep_index}}
     user: root
     hour: 10
-    job: start livegrep-refresh-index
+    job: service livegrep-refresh-index start
     state: present
 
 - name: configure DNS
