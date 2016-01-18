@@ -51,9 +51,6 @@ resource "aws_launch_configuration" "livegrep_frontend" {
   ]
 
   iam_instance_profile = "${aws_iam_instance_profile.livegrep_frontend.arn}"
-
-  user_data = <<EOF
-EOF
 }
 
 resource "aws_autoscaling_group" "livegrep_backend_linux" {
