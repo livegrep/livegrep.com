@@ -1,0 +1,7 @@
+- name: Provision base image
+  hosts: all
+  become_user: root
+  gather_facts: false
+  gather_facts: false
+  roles:
+    - base

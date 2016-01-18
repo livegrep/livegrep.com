@@ -23,6 +23,11 @@
         "sudo apt-get update",
         "sudo apt-get install -y ansible"
       ]
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/ami.yml",
+      "playbook_dir": "ansible/"
     }
   ]
 }

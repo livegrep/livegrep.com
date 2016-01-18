@@ -1,6 +1,7 @@
 - name: Provision livegrep instances
   hosts: all
-  sudo: yes
+  become: yes
+  become_user: root
   gather_facts: false
   roles:
     - '{{role}}'

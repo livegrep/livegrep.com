@@ -29,6 +29,9 @@ resource "template_file" "livegrep_frontend_user_data" {
     role = "livegrep-web"
     extra_args = ""
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_launch_configuration" "livegrep_frontend" {
@@ -88,6 +91,9 @@ resource "template_file" "livegrep_backend_linux_user_data" {
     role = "livegrep-index"
     extra_args = "-e livegrep_index=linux"
   }
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "aws_launch_configuration" "livegrep_backend_linux" {
@@ -123,6 +129,9 @@ resource "template_file" "livegrep_backend_github_user_data" {
     s3_bucket = "${var.s3_bucket}"
     role = "livegrep-index"
     extra_args = "-e livegrep_index=github"
+  }
+  lifecycle {
+    create_before_destroy = true
   }
 }
 
