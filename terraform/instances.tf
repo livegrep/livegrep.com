@@ -22,6 +22,15 @@ resource "aws_autoscaling_group" "livegrep_frontend" {
   }
 }
 
+resource "template_file" "livegrep_frontend_user_data" {
+  template = "${file("user-data.tpl")}"
+  vars = {
+    s3_bucket = "${var.s3_bucket}"
+    role = "livegrep-web"
+    extra_args = ""
+  }
+}
+
 resource "aws_launch_configuration" "livegrep_frontend" {
   image_id = "${lookup(var.amis, var.region)}"
   instance_type = "t2.micro"
@@ -31,6 +40,7 @@ resource "aws_launch_configuration" "livegrep_frontend" {
     create_before_destroy = true
   }
 
+  user_data = "${template_file.livegrep_frontend_user_data.rendered}"
 
   security_groups = [
     "${aws_security_group.base.id}",
@@ -40,16 +50,6 @@ resource "aws_launch_configuration" "livegrep_frontend" {
   iam_instance_profile = "${aws_iam_instance_profile.livegrep_frontend.arn}"
 
   user_data = <<EOF
-#!/bin/sh
-set -eux
-export DEBIAN_FRONTEND=noninteractive
-sudo apt-get update
-sudo apt-get install -y python-software-properties git
-sudo add-apt-repository -y ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install -y ansible
-echo 'localhost ansible_connection=local' > /etc/ansible/hosts
-ansible-pull -e 'role=livegrep-web' -U https://github.com/livegrep/livegrep.com/ ansible/livegrep.yml
 EOF
 }
 
@@ -81,6 +81,15 @@ resource "aws_autoscaling_group" "livegrep_backend_linux" {
   }
 }
 
+resource "template_file" "livegrep_backend_linux_user_data" {
+  template = "${file("user-data.tpl")}"
+  vars = {
+    s3_bucket = "${var.s3_bucket}"
+    role = "livegrep-index"
+    extra_args = "-e livegrep_index=linux"
+  }
+}
+
 resource "aws_launch_configuration" "livegrep_backend_linux" {
   image_id = "${lookup(var.amis, var.region)}"
   instance_type = "t2.small"
@@ -97,18 +106,7 @@ resource "aws_launch_configuration" "livegrep_backend_linux" {
     create_before_destroy = true
   }
 
-  user_data = <<EOF
-#!/bin/sh
-set -eux
-export DEBIAN_FRONTEND=noninteractive
-sudo apt-get update
-sudo apt-get install -y python-software-properties git
-sudo add-apt-repository -y ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install -y ansible
-echo 'localhost ansible_connection=local' > /etc/ansible/hosts
-ansible-pull -e 'role=livegrep-index' -e 'livegrep_index=linux' -e 'livegrep_bucket=${s3_bucket}' -U https://github.com/livegrep/livegrep.com/ ansible/livegrep.yml
-EOF
+  user_data = "${template_file.livegrep_backend_linux_user_data.rendered}"
 
   root_block_device {
     volume_size = 12
@@ -119,6 +117,14 @@ EOF
   }
 }
 
+resource "template_file" "livegrep_backend_github_user_data" {
+  template = "${file("user-data.tpl")}"
+  vars = {
+    s3_bucket = "${var.s3_bucket}"
+    role = "livegrep-index"
+    extra_args = "-e livegrep_index=github"
+  }
+}
 
 resource "aws_autoscaling_group" "livegrep_backend_github" {
   availability_zones = ["${aws_subnet.default.availability_zone}"]
@@ -164,18 +170,7 @@ resource "aws_launch_configuration" "livegrep_backend_github" {
     create_before_destroy = true
   }
 
-  user_data = <<EOF
-#!/bin/sh
-set -eux
-export DEBIAN_FRONTEND=noninteractive
-sudo apt-get update
-sudo apt-get install -y python-software-properties git
-sudo add-apt-repository -y ppa:ansible/ansible
-sudo apt-get update
-sudo apt-get install -y ansible
-echo 'localhost ansible_connection=local' > /etc/ansible/hosts
-ansible-pull -e 'role=livegrep-index' -e 'livegrep_index=github' -e 'livegrep_bucket=${s3_bucket}' -U https://github.com/livegrep/livegrep.com/ ansible/livegrep.yml
-EOF
+  user_data = "${template_file.livegrep_backend_github_user_data.rendered}"
 
   root_block_device {
     volume_size = 30
