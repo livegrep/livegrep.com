@@ -1,0 +1,5 @@
+#!/bin/bash
+. "$(dirname "$0")/common.sh"
+instance="$1"
+host=$(instance_hostname "$instance")
+while ! ssh -o connecttimeout=3 -o stricthostkeychecking=no -o userknownhostsfile=/dev/null $host :; do sleep 3; done
