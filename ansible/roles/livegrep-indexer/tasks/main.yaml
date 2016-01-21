@@ -37,10 +37,37 @@
   command: credstash -r us-west-2 get github/oauth role=livegrep-indexer
   register: github_oauth_key
 
+- name: get ssh key
+  command: credstash -r us-west-2 get livegrep-indexer/id_livegrep role=livegrep-indexer
+  register: github_ssh_key
+
+- name: Allow shutdown
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: "^livegrep"
+    line: "livegrep ALL=(root) NOPASSWD:/sbin/shutdown -h now"
+
 - name: github credentials files
   template:
     dest: /home/livegrep/credentials
     src: credentials.j2
+    mode: 0400
+    owner: livegrep
+    group: livegrep
+
+- name: livegrep .ssh
+  file:
+    dest: /home/livegrep/.ssh
+    state: directory
+    mode: 0700
+    owner: livegrep
+    group: livegrep
+
+- name: livegrep ssh key
+  template:
+    dest: /home/livegrep/.ssh/id_ed25519
+    src: id_ed25519.j2
     mode: 0400
     owner: livegrep
     group: livegrep
@@ -64,3 +91,20 @@
     mode: 0755
     owner: livegrep
     group: livegrep
+
+- name: systemd-reindex
+  copy:
+    dest: /home/livegrep/systemd-reindex
+    src: systemd-reindex
+    mode: 0755
+    owner: livegrep
+    group: livegrep
+
+- name: livegrep-reindex.service
+  template:
+    dest: /etc/systemd/system/livegrep-reindex.service
+    src: livegrep-reindex.service.j2
+    mode: 0755
+    owner: livegrep
+    group: livegrep
+  notify: livegrep-reindex.service

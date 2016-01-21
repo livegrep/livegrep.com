@@ -3,14 +3,16 @@ set -eu
 cd /home/livegrep
 . credentials
 
+export GIT_HTTP_LOW_SPEED_LIMIT=1024
+export GIT_HTTP_LOW_SPEED_TIME=60
+
 ./deploy/bin/livegrep-github-reindex \
   -name='Linux v4.3' \
   -repo=torvalds/linux \
   -revparse=false \
   -revision=v4.3 \
   -dir "$(pwd)/data/" \
-  -out "$(pwd)/data/linux.idx" \
-  -http
+  -out "$(pwd)/data/linux.idx"
 
 ./download-starred > REPOS
 
@@ -18,7 +20,6 @@ cd /home/livegrep
   -depth=1 \
   -name='Github Top 10k' \
   -revparse=false \
-  -http \
   -dir "$(pwd)/data/" \
   -out "$(pwd)/data/github.idx" \
   $(while read repo; do echo -repo=$repo; done < REPOS)

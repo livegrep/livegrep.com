@@ -1,0 +1,6 @@
+---
+- name: livegrep-reindex.service
+  service:
+    name: livegrep-reindex.service
+    state: started
+  when: livegrep_start_reindex
