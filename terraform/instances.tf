@@ -105,10 +105,6 @@ resource "aws_launch_configuration" "livegrep_backend_linux" {
 
   iam_instance_profile = "${aws_iam_instance_profile.livegrep_backend.arn}"
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
   user_data = "${template_file.livegrep_backend_linux_user_data.rendered}"
 
   root_block_device {
@@ -137,7 +133,7 @@ resource "aws_autoscaling_group" "livegrep_backend_github" {
   vpc_zone_identifier = ["${aws_subnet.default.id}"]
   name = "livegrep-backend-github"
   min_size = 0
-  desired_capacity = 0
+  desired_capacity = 1
   max_size = 2
   health_check_grace_period = 300
   health_check_type = "EC2"
@@ -172,14 +168,10 @@ resource "aws_launch_configuration" "livegrep_backend_github" {
 
   iam_instance_profile = "${aws_iam_instance_profile.livegrep_backend.arn}"
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
   user_data = "${template_file.livegrep_backend_github_user_data.rendered}"
 
   root_block_device {
-    volume_size = 30
+    volume_size = 100
   }
 
   lifecycle {

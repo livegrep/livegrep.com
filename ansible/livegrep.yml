@@ -6,9 +6,10 @@
   roles:
     - '{{role}}'
   vars:
-    livegrep_revision: cd42a9f72b
+    livegrep_revision: 43e1b96072
     livegrep_indexes:
       - id: linux
+      - id: github
     livegrep_domain: livegrep.com
     livegrep_bucket: livegrep
     livegrep_mailto: nelhage@nelhage.com
