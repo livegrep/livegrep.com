@@ -121,7 +121,7 @@ resource "template_file" "livegrep_backend_github_user_data" {
   vars = {
     s3_bucket = "${var.s3_bucket}"
     role = "livegrep-index"
-    extra_args = "-e livegrep_index=github"
+    extra_args = "-e livegrep_index=github -e livegrep_timeout=5000"
   }
   lifecycle {
     create_before_destroy = true
