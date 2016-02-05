@@ -13,6 +13,10 @@
   apt:
     name: nginx
 
+- name: disable nginx logrotate
+  shell: |
+    dpkg-divert --rename --divert /etc/logrotate.d/nginx.disabled --add /etc/logrotate.d/nginx
+
 - name: remove default site
   file:
     path: /etc/nginx/sites-enabled/default
