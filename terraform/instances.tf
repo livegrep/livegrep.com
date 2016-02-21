@@ -9,6 +9,7 @@ resource "aws_autoscaling_group" "livegrep_frontend" {
   health_check_grace_period = 300
   health_check_type = "EC2"
   force_delete = true
+  termination_policies = ["OldestInstance", "Default"]
   launch_configuration = "${aws_launch_configuration.livegrep_frontend.name}"
 
   tag {
@@ -53,6 +54,16 @@ resource "aws_launch_configuration" "livegrep_frontend" {
   iam_instance_profile = "${aws_iam_instance_profile.livegrep_frontend.arn}"
 }
 
+resource "aws_autoscaling_lifecycle_hook" "livegrep_frontend" {
+  name = "livegrep-frontend"
+  autoscaling_group_name = "${aws_autoscaling_group.livegrep_frontend.name}"
+  default_result = "ABANDON"
+  heartbeat_timeout = 900
+  lifecycle_transition = "autoscaling:EC2_INSTANCE_LAUNCHING"
+  notification_target_arn = "${aws_sqs_queue.livegrep_asg_queue.arn}"
+  role_arn = "${aws_iam_role.livegrep_autoscale.arn}"
+}
+
 resource "aws_autoscaling_group" "livegrep_backend_linux" {
   availability_zones = ["${aws_subnet.default.availability_zone}"]
   vpc_zone_identifier = ["${aws_subnet.default.id}"]
@@ -63,6 +74,7 @@ resource "aws_autoscaling_group" "livegrep_backend_linux" {
   health_check_grace_period = 300
   health_check_type = "EC2"
   force_delete = true
+  termination_policies = ["OldestInstance", "Default"]
   launch_configuration = "${aws_launch_configuration.livegrep_backend_linux.name}"
 
   tag {
@@ -138,6 +150,7 @@ resource "aws_autoscaling_group" "livegrep_backend_github" {
   health_check_grace_period = 300
   health_check_type = "EC2"
   force_delete = true
+  termination_policies = ["OldestInstance", "Default"]
   launch_configuration = "${aws_launch_configuration.livegrep_backend_github.name}"
 
   tag {

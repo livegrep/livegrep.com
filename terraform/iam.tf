@@ -1,4 +1,3 @@
-
 resource "aws_iam_role" "livegrep_frontend" {
   name = "livegrep_frontend"
   assume_role_policy = <<EOF
@@ -130,6 +129,25 @@ resource "aws_iam_policy" "livegrep_common" {
             ]
           }
         }
+      },
+      {
+        "Sid": "CompleteLifecyleAction",
+        "Effect": "Allow",
+        "Action": [
+          "autoscaling:CompleteLifeCycleAction"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "ReadLifecyleEvents",
+        "Effect": "Allow",
+        "Action": [
+          "sqs:ReceiveMessage",
+          "sqs:DeleteMessage",
+          "sqs:ChangeMessageVisibility",
+          "sqs:Get*"
+        ],
+        "Resource": ["${aws_sqs_queue.livegrep_asg_queue.arn}"]
       }
     ]
 }
@@ -342,4 +360,35 @@ resource "aws_iam_role_policy" "livegrep_indexer_creds" {
     ]
 }
 EOF
+}
+
+# ASG notification policies
+resource "aws_iam_role" "livegrep_autoscale" {
+  name = "livegrep_autoscale"
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "autoscaling.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_policy_attachment" "livegrep_autoscale" {
+  name = "livegrep-autoscale"
+  roles = ["${aws_iam_role.livegrep_autoscale.name}"]
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AutoScalingNotificationAccessRole"
+}
+
+
+resource "aws_sqs_queue" "livegrep_asg_queue" {
+  name = "livegrep-asg"
+  message_retention_seconds = 3600
 }
