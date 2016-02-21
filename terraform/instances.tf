@@ -128,6 +128,16 @@ resource "aws_launch_configuration" "livegrep_backend_linux" {
   }
 }
 
+resource "aws_autoscaling_lifecycle_hook" "livegrep_backend_linux" {
+  name = "livegrep-backend_linux"
+  autoscaling_group_name = "${aws_autoscaling_group.livegrep_backend_linux.name}"
+  default_result = "ABANDON"
+  heartbeat_timeout = 1200
+  lifecycle_transition = "autoscaling:EC2_INSTANCE_LAUNCHING"
+  notification_target_arn = "${aws_sqs_queue.livegrep_asg_queue.arn}"
+  role_arn = "${aws_iam_role.livegrep_autoscale.arn}"
+}
+
 resource "template_file" "livegrep_backend_github_user_data" {
   template = "${file("user-data.tpl")}"
   vars = {
@@ -190,6 +200,16 @@ resource "aws_launch_configuration" "livegrep_backend_github" {
   lifecycle {
     create_before_destroy = true
   }
+}
+
+resource "aws_autoscaling_lifecycle_hook" "livegrep_backend_github" {
+  name = "livegrep-backend_github"
+  autoscaling_group_name = "${aws_autoscaling_group.livegrep_backend_github.name}"
+  default_result = "ABANDON"
+  heartbeat_timeout = 2700
+  lifecycle_transition = "autoscaling:EC2_INSTANCE_LAUNCHING"
+  notification_target_arn = "${aws_sqs_queue.livegrep_asg_queue.arn}"
+  role_arn = "${aws_iam_role.livegrep_autoscale.arn}"
 }
 
 resource "aws_ebs_volume" "indexer_cache" {
