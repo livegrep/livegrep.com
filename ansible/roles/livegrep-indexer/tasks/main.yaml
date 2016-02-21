@@ -104,7 +104,7 @@
   template:
     dest: /etc/systemd/system/livegrep-reindex.service
     src: livegrep-reindex.service.j2
-    mode: 0755
+    mode: 0644
     owner: livegrep
     group: livegrep
   notify: livegrep-reindex.service
