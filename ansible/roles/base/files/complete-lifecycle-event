@@ -1,0 +1,31 @@
+#!/usr/bin/env python
+from __future__ import print_function
+import boto3
+import json
+import boto3.session
+import urllib2
+import os
+import sys
+
+if len(sys.argv) > 2:
+    event = sys.argv[1]
+    result = sys.argv[2]
+else:
+    print("Usage: %s EVENT RESULT" % (sys.argv[0],), file=sys.stderr)
+    sys.exit(1)
+
+s = boto3.session.Session()
+region = s._session.get_config_variable('region')
+if region is None:
+    az = urllib2.urlopen('http://169.254.169.254/latest/meta-data/placement/availability-zone').read()
+    region = az[:-1]
+
+client = boto3.client('autoscaling', region_name=region)
+event = json.loads(event)
+
+client.complete_lifecycle_action(
+    LifecycleHookName=event['LifecycleHookName'],
+    AutoScalingGroupName=event['AutoScalingGroupName'],
+    LifecycleActionToken=event['LifecycleActionToken'],
+    LifecycleActionResult=result
+)

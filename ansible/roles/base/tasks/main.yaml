@@ -89,3 +89,12 @@
     path: /usr/local/bin/gof3r
     state: link
     src: /var/cache/gof3r_0.5.0_linux_amd64/gof3r
+
+- name: copy lifecycle helpers
+  copy:
+    src: '{{item}}'
+    dest: '/usr/local/bin/{{item}}'
+    mode: 0755
+  with_items:
+    - complete-lifecycle-event
+    - find-lifecycle-event
