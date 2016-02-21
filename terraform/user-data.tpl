@@ -1,5 +1,6 @@
-#!/bin/sh
-event="$(/usr/local/bin/find-lifecycle-event)"
+#!/bin/bash
+set -ex
+event="$(/usr/local/bin/find-lifecycle-event livegrep-asg)"
 abandon() {
     /usr/local/bin/complete-lifecycle-event "$event" ABANDON
 }

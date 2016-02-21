@@ -41,7 +41,14 @@ while True:
 
     msg = m['Messages'][0]
     body = json.loads(msg['Body'])
-    if body['EC2InstanceId'] == instance_id:
+    print("considering event: %r" % (msg['Body'],), file=sys.stderr)
+    if body.get('Event', None) == 'autoscaling:TEST_NOTIFICATION':
+        client.delete_message(
+            QueueUrl=url,
+            ReceiptHandle=msg['ReceiptHandle'])
+        continue
+
+    if body.get('EC2InstanceId', None) == instance_id:
         break
     else:
         client.change_message_visibility(
