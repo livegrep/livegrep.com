@@ -8,7 +8,5 @@ test -d "/etc/letsencrypt/live/$domain"
 
 credstash -r us-west-2 put -a \
   "livegrep-web/certs/$domain" \
-  "$(tar -C /etc/letsencrypt/ -cz \
-      "live/$domain" \
-      "archive/$domain" | openssl base64)" \
+  "$(tar -C /etc/letsencrypt/ -cz live archive renewal keys | openssl base64)" \
   "role=$role" "domain=$domain"
