@@ -7,10 +7,10 @@ export GIT_HTTP_LOW_SPEED_LIMIT=1024
 export GIT_HTTP_LOW_SPEED_TIME=60
 
 ./deploy/bin/livegrep-github-reindex \
-  -name='Linux v4.3' \
+  -name='Linux v4.5' \
   -repo=torvalds/linux \
   -revparse=false \
-  -revision=v4.3 \
+  -revision=v4.5 \
   -dir "$(pwd)/data/" \
   -out "$(pwd)/data/linux.idx"
 
