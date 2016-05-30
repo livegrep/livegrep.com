@@ -1,5 +1,3 @@
-variable "access_key" {}
-variable "secret_key" {}
 variable "region" {
   default = "us-west-2"
 }
@@ -18,6 +16,6 @@ variable "s3_bucket" {
 
 variable "amis" {
     default = {
-        us-west-2 = "ami-9c7b8ffc"
+        us-west-2 = "ami-a77c85c7"
     }
 }
