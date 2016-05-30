@@ -17,7 +17,7 @@
     shell: /bin/bash
     groups: sudo
     append: yes
-  with_items: users
+  with_items: '{{users}}'
 
 - name: Add user SSH keys
   authorized_key:
