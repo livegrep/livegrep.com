@@ -1,3 +1,7 @@
+- name: get honeycomb key
+  command: credstash -r us-west-2 get honeycomb/write-key role=livegrep-web
+  register: honeycomb_write_key
+
 - name: livegrep config file
   template:
     src: livegrep.json.j2
