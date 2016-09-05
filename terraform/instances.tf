@@ -23,15 +23,12 @@ resource "aws_autoscaling_group" "livegrep_frontend" {
   }
 }
 
-resource "template_file" "livegrep_frontend_user_data" {
+data "template_file" "livegrep_frontend_user_data" {
   template = "${file("user-data.tpl")}"
   vars = {
     s3_bucket = "${var.s3_bucket}"
     role = "livegrep-web"
     extra_args = ""
-  }
-  lifecycle {
-    create_before_destroy = true
   }
 }
 
@@ -44,7 +41,7 @@ resource "aws_launch_configuration" "livegrep_frontend" {
     create_before_destroy = true
   }
 
-  user_data = "${template_file.livegrep_frontend_user_data.rendered}"
+  user_data = "${data.template_file.livegrep_frontend_user_data.rendered}"
 
   security_groups = [
     "${aws_security_group.base.id}",
@@ -93,15 +90,12 @@ resource "aws_autoscaling_group" "livegrep_backend_linux" {
   }
 }
 
-resource "template_file" "livegrep_backend_linux_user_data" {
+data "template_file" "livegrep_backend_linux_user_data" {
   template = "${file("user-data.tpl")}"
   vars = {
     s3_bucket = "${var.s3_bucket}"
     role = "livegrep-index"
     extra_args = "-e livegrep_index=linux"
-  }
-  lifecycle {
-    create_before_destroy = true
   }
 }
 
@@ -117,7 +111,7 @@ resource "aws_launch_configuration" "livegrep_backend_linux" {
 
   iam_instance_profile = "${aws_iam_instance_profile.livegrep_backend.arn}"
 
-  user_data = "${template_file.livegrep_backend_linux_user_data.rendered}"
+  user_data = "${data.template_file.livegrep_backend_linux_user_data.rendered}"
 
   root_block_device {
     volume_size = 12
@@ -138,15 +132,12 @@ resource "aws_autoscaling_lifecycle_hook" "livegrep_backend_linux" {
   role_arn = "${aws_iam_role.livegrep_autoscale.arn}"
 }
 
-resource "template_file" "livegrep_backend_github_user_data" {
+data "template_file" "livegrep_backend_github_user_data" {
   template = "${file("user-data.tpl")}"
   vars = {
     s3_bucket = "${var.s3_bucket}"
     role = "livegrep-index"
     extra_args = "-e livegrep_index=github -e livegrep_timeout=5000"
-  }
-  lifecycle {
-    create_before_destroy = true
   }
 }
 
@@ -191,7 +182,7 @@ resource "aws_launch_configuration" "livegrep_backend_github" {
 
   iam_instance_profile = "${aws_iam_instance_profile.livegrep_backend.arn}"
 
-  user_data = "${template_file.livegrep_backend_github_user_data.rendered}"
+  user_data = "${data.template_file.livegrep_backend_github_user_data.rendered}"
 
   root_block_device {
     volume_size = 100
