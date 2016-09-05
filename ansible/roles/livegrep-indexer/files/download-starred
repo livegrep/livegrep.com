@@ -20,9 +20,12 @@ while True:
     r = s.get(u, headers=auth_headers)
     if r.status_code != 200:
         if r.status_code == 403:
-            delay = int(r.headers['x-ratelimit-reset']) - time.time()
+            if 'x-ratelimit-reset' in r.headers:
+                delay = int(r.headers['x-ratelimit-reset']) - time.time()
+            else:
+                delay = int(r.headers['retry-after'])
             if delay > 0:
-                logging.info("ratelimited, sleeping %fs until %s..." % (delay, datetime.datetime.utcfromtimestamp(int(r.headers['x-ratelimit-reset']))))
+                logging.info("ratelimited, sleeping %fs ..." % (delay,))
                 time.sleep(delay + 1)
         elif r.status_code >= 500:
             logging.info("server error: %s" % (r.content,))
