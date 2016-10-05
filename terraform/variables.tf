@@ -16,6 +16,6 @@ variable "s3_bucket" {
 
 variable "amis" {
     default = {
-        us-west-2 = "ami-2a94444a"
+        us-west-2 = "ami-ab8d55cb"
     }
 }
