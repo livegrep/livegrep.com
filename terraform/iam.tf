@@ -317,7 +317,10 @@ resource "aws_iam_role_policy" "livegrep_indexer_ebs" {
         "Action": [
           "ec2:AttachVolume",
           "ec2:CreateVolume",
-          "ec2:DescribeVolumes"
+          "ec2:DescribeVolumes",
+          "ec2:DescribeVolumeAttachment",
+          "ec2:ModifyInstanceAttribute",
+          "ec2:CreateTags"
         ],
         "Resource": [
           "*"
