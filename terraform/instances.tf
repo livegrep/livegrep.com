@@ -202,12 +202,3 @@ resource "aws_autoscaling_lifecycle_hook" "livegrep_backend_github" {
   notification_target_arn = "${aws_sqs_queue.livegrep_asg_queue.arn}"
   role_arn = "${aws_iam_role.livegrep_autoscale.arn}"
 }
-
-resource "aws_ebs_volume" "indexer_cache" {
-  availability_zone = "${aws_subnet.default.availability_zone}"
-  size = 120
-  type = "gp2"
-  tags {
-    Name = "livegrep-indexer-cache"
-  }
-}

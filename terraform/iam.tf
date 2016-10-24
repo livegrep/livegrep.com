@@ -315,20 +315,13 @@ resource "aws_iam_role_policy" "livegrep_indexer_ebs" {
         "Sid": "AttachVolume",
         "Effect": "Allow",
         "Action": [
-          "ec2:AttachVolume"
-        ],
-        "Resource": [
-          "arn:aws:ec2:${var.region}:${var.account_id}:volume/${aws_ebs_volume.indexer_cache.id}",
-          "arn:aws:ec2:${var.region}:${var.account_id}:instance/*"
-        ]
-      },
-      {
-        "Sid": "DescribeVolumes",
-        "Effect": "Allow",
-        "Action": [
+          "ec2:AttachVolume",
+          "ec2:CreateVolume",
           "ec2:DescribeVolumes"
         ],
-        "Resource": "*"
+        "Resource": [
+          "*"
+        ]
       }
     ]
 }
