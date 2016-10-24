@@ -4,6 +4,7 @@
     instance: '{{ansible_ec2_instance_id}}'
     region: '{{ansible_ec2_placement_region}}'
     name: livegrep-indexer-cache
+    size: 200
     delete_on_termination: true
     device_name: sdf
 
