@@ -4,6 +4,7 @@
     instance: '{{ansible_ec2_instance_id}}'
     region: '{{ansible_ec2_placement_region}}'
     name: livegrep-indexer-cache
+    delete_on_termination: true
     device_name: sdf
 
 - name: make indexer filesystem
