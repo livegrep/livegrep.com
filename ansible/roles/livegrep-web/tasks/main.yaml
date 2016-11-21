@@ -44,6 +44,11 @@
   args:
     creates: '/etc/letsencrypt/live/{{livegrep_domain}}'
 
+- name: start nginx
+  service:
+    name: nginx
+    state: started
+
 - name: configure DNS
   route53:
     command: create
