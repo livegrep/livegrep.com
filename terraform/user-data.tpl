@@ -10,6 +10,7 @@ while ! apt-get update; do sleep 5; done
 apt-get -y dist-upgrade
 
 export PYTHONUNBUFFERED=1
+mkdir -p /etc/ansible
 echo 'localhost ansible_connection=local' > /etc/ansible/hosts
 ansible-pull -e 'role=${role}' -e 'livegrep_bucket=${s3_bucket}' ${extra_args} -U https://github.com/livegrep/livegrep.com/ ansible/livegrep.yml
 /usr/local/bin/complete-lifecycle-event "$event" CONTINUE
