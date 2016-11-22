@@ -86,6 +86,13 @@ resource "aws_security_group" "livegrep_backend" {
     protocol    = "tcp"
     security_groups = ["${aws_security_group.livegrep_frontend.id}"]
   }
+
+  ingress {
+    from_port   = 9898
+    to_port     = 9898
+    protocol    = "tcp"
+    security_groups = ["${aws_security_group.livegrep_frontend.id}"]
+  }
 }
 
 resource "aws_security_group" "livegrep_indexer" {
