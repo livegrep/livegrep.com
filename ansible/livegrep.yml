@@ -6,7 +6,7 @@
   roles:
     - '{{role}}'
   vars:
-    livegrep_revision: 9b95071c4c
+    livegrep_revision: b5f15f32da
     livegrep_indexes:
       - id: linux
       - id: github
