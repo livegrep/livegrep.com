@@ -9,7 +9,6 @@
     livegrep_revision: fa05c88106
     livegrep_indexes:
       - id: linux
-      - id: github
     livegrep_domain: livegrep.com
     livegrep_bucket: livegrep
     livegrep_mailto: nelhage@nelhage.com

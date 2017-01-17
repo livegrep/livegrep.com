@@ -146,7 +146,7 @@ resource "aws_autoscaling_group" "livegrep_backend_github" {
   vpc_zone_identifier = ["${aws_subnet.default.id}"]
   name = "livegrep-backend-github"
   min_size = 0
-  desired_capacity = 1
+  desired_capacity = 0
   max_size = 2
   health_check_grace_period = 300
   health_check_type = "EC2"

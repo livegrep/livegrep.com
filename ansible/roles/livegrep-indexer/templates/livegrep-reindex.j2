@@ -14,19 +14,19 @@ export GIT_HTTP_LOW_SPEED_TIME=60
   -dir "$(pwd)/data/" \
   -out "$(pwd)/data/linux.idx"
 
-./download-starred > REPOS
-
-./deploy/bin/livegrep-github-reindex \
-  -depth=1 \
-  -name='Github Top 1k' \
-  -revparse=false \
-  -dir "$(pwd)/data/" \
-  -out "$(pwd)/data/github.idx" \
-  $(while read repo; do echo -repo=$repo; done < REPOS)
+# ./download-starred > REPOS
+#
+# ./deploy/bin/livegrep-github-reindex \
+#   -depth=1 \
+#   -name='Github Top 1k' \
+#   -revparse=false \
+#   -dir "$(pwd)/data/" \
+#   -out "$(pwd)/data/github.idx" \
+#   $(while read repo; do echo -repo=$repo; done < REPOS)
 
 az=$(curl -s 169.254.169.254/latest/meta-data/placement/availability-zone)
 region=${az%[a-z]}
 
-for idx in linux github; do
+for idx in {{livegrep_indexes | map(attribute='id') | join(' ')}}; do
     gof3r cp --endpoint "s3-$region.amazonaws.com" "data/$idx.idx" "s3://livegrep/indexes/$idx.idx"
 done
