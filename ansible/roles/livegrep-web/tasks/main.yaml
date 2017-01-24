@@ -44,6 +44,15 @@
   args:
     creates: '/etc/letsencrypt/live/{{livegrep_domain}}'
 
+- name: livegrep renew
+  cron:
+    name: 'letsencrypt-renew'
+    cron_file: 'letsencrypt-renew'
+    hour: 6
+    minute: 17
+    user: letsencrypt
+    job: '/usr/local/bin/letsencrypt renew'
+
 - name: start nginx
   service:
     name: nginx
