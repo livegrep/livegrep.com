@@ -20,7 +20,8 @@ items:
           imagePullPolicy: Always
           resources:
             requests:
-              cpu: 100m
+              cpu: 2
+              memory: 6M
           terminationMessagePath: /dev/termination-log
           volumeMounts:
           - mountPath: /var/run/secrets/gcp
