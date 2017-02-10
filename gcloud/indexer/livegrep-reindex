@@ -1,7 +1,6 @@
 #!/bin/bash
 set -eu
 
-gcloud auth activate-service-account --key-file=/var/run/secrets/gcp/service-account.json
 eval $(ssh-agent)
 ssh-add /var/run/secrets/ssh/id_ed25519
 

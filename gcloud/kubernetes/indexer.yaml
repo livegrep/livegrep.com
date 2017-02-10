@@ -31,6 +31,8 @@ spec:
           secretKeyRef:
             name: github.oauth
             key: oauth_key
+      - name: GOOGLE_APPLICATION_CREDENTIALS
+        value: /var/run/secrets/gcp/service-account.json
   dnsPolicy: ClusterFirst
   restartPolicy: Never
   volumes:
