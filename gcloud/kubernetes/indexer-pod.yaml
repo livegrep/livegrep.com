@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: livegrep-indexer
+  namespace: default
+spec:
+  containers:
+  - args:
+    - /livegrep/bin/livegrep-reindex
+    image: us.gcr.io/livegrep/indexer:latest
+    imagePullPolicy: Always
+    name: indexer
+    resources:
+      requests:
+        cpu: 100m
+    terminationMessagePath: /dev/termination-log
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-tdvkc
+      readOnly: true
+    - mountPath: /var/run/secrets/gcp
+      name: gcp
+      readOnly: true
+    - mountPath: /var/run/secrets/ssh
+      name: github-ssh
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+  volumes:
+  - name: default-token-tdvkc
+    secret:
+      defaultMode: 0644
+      secretName: default-token-tdvkc
+  - name: github-ssh
+    secret:
+      defaultMode: 0400
+      secretName: github.ssh
+  - name: gcp
+    secret:
+      defaultMode: 0644
+      secretName: gcp.livegrep-indexer
