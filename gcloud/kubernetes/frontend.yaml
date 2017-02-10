@@ -24,15 +24,32 @@ items:
           terminationMessagePath: /dev/termination-log
           ports:
             - containerPort: 8910
+          readinessProbe:
+            httpGet:
+              path: /debug/healthcheck
+              port: 8910
+            periodSeconds: 1
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 10
         dnsPolicy: ClusterFirst
 - apiVersion: v1
   kind: Service
   metadata:
     name: livegrep-frontend
   spec:
+    type: NodePort
     ports:
-      - port: 80
-        targetPort: 8910
+      - port: 8910
     selector:
       app: livegrep-frontend
-    type: LoadBalancer
+- apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    name: livegrep
+  spec:
+    tls:
+      - secretName: beta.livegrep.com
+    backend:
+      serviceName: livegrep-frontend
+      servicePort: 8910

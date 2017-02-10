@@ -20,7 +20,7 @@ items:
           imagePullPolicy: Always
           resources:
             requests:
-              cpu: 2
+              cpu: 1
               memory: 6M
           terminationMessagePath: /dev/termination-log
           volumeMounts:
