@@ -25,6 +25,12 @@ spec:
     - mountPath: /var/run/secrets/ssh
       name: github-ssh
       readOnly: true
+    env:
+      - name: GITHUB_KEY
+        valueFrom:
+          secretKeyRef:
+            name: github.oauth
+            key: oauth_key
   dnsPolicy: ClusterFirst
   restartPolicy: Never
   volumes:
