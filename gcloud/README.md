@@ -18,7 +18,9 @@ hand):
 
 - `gcp.cert-manager` -- `service-account.json` containing credentials
   for a servic eaccount with `roles/dns.admin`
-- `gcp.livegrep-indexer` -- `livegrep.json` containing credentials for
-  a service account with rw to the livegrep bucket.
+- `gcp.livegrep-indexer` -- `service-account.json` containing
+  credentials for a service account with rw to the livegrep bucket.
 - `github.ssh` -- an `id_ed25519` containing an ssh key with github
   access to the indexed repositories.
+- `github.oauth` -- an `oauth_key` key containing a github oauth key
+  with public-access permissions.
