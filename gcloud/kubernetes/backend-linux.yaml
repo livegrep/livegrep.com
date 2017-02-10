@@ -21,7 +21,7 @@ items:
           resources:
             requests:
               cpu: 1
-              memory: 6M
+              memory: 6G
           terminationMessagePath: /dev/termination-log
           volumeMounts:
           - mountPath: /var/run/secrets/gcp

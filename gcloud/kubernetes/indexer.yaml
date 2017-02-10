@@ -12,7 +12,8 @@ spec:
     name: indexer
     resources:
       requests:
-        cpu: 100m
+        cpu: 1
+        memory: 4G
     terminationMessagePath: /dev/termination-log
     volumeMounts:
     - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
