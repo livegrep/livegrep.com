@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eux
 
-imgs=(base indexer)
+imgs=(base backend frontend indexer)
 push=
 build=1
 

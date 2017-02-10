@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: List
+items:
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    name: livegrep-frontend
+  spec:
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          app: livegrep-frontend
+      spec:
+        containers:
+        - args: ['/livegrep/bin/livegrep', '/livegrep/conf/livegrep.json']
+          name: frontend
+          image: us.gcr.io/livegrep/frontend:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+          terminationMessagePath: /dev/termination-log
+          ports:
+            - containerPort: 8910
+        dnsPolicy: ClusterFirst
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: livegrep-frontend
+  spec:
+    ports:
+      - port: 80
+        targetPort: 8910
+    selector:
+      app: livegrep-frontend
+    type: LoadBalancer

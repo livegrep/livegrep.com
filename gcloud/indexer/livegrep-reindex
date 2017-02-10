@@ -10,11 +10,13 @@ cd /livegrep
 export GIT_HTTP_LOW_SPEED_LIMIT=1024
 export GIT_HTTP_LOW_SPEED_TIME=60
 
+version=4.9
+
 bin/livegrep-github-reindex \
-  -name='Linux v4.7' \
+  -name="Linux $version" \
   -repo=torvalds/linux \
   -revparse=false \
-  -revision=v4.7 \
+  -revision="v$version" \
   -dir "$(pwd)/data/" \
   -out "$(pwd)/data/linux.idx"
 
