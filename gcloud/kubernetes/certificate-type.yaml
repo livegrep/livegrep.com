@@ -2,6 +2,6 @@ apiVersion: extensions/v1beta1
 kind: ThirdPartyResource
 description: "A specification of a Let's Encrypt Certificate to manage."
 metadata:
-  name: "certificate.stable.hightower.com"
+  name: "certificate.stable.k8s.psg.io"
 versions:
   - name: v1

@@ -1,10 +1,8 @@
-apiVersion: "stable.hightower.com/v1"
+apiVersion: "stable.k8s.psg.io/v1"
 kind: "Certificate"
 metadata:
   name: "beta-livegrep-com"
 spec:
   domain: "beta.livegrep.com"
   email: "nelhage@nelhage.com"
-  provider: "googledns"
-  secret: "gcp.cert-manager"
-  secretKey: "service-account.json"
+  provider: "googlecloud"
