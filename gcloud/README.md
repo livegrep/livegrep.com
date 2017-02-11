@@ -3,12 +3,13 @@ Engine configuration.
 
 # Directories
 
-- `base/` -- Base Docker image all images inherit from.
-- `backend/` -- Backend docker image (serves queries from a prebuilt
-  index)
-- `frontend/` -- Frontend (http web server) docker image.
-- `indexer/` -- Indexer (creates a new index and uploads to google
-  storage) docker image.
+- `docker/` -- docker images
+  - `base/` -- Base Docker image all images inherit from.
+  - `backend/` -- Backend docker image (serves queries from a prebuilt
+    index)
+  - `frontend/` -- Frontend (http web server) docker image.
+  - `indexer/` -- Indexer (creates a new index and uploads to google
+    storage) docker image.
 - `kubernetes/` -- Kubernetes configuration.
 
 # Secrets

@@ -1,5 +1,6 @@
 #!/bin/bash
 set -eux
+cd $(dirname "$0")
 
 imgs=(base backend frontend indexer)
 push=
