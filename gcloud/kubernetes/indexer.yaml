@@ -7,7 +7,7 @@ spec:
   containers:
   - args:
     - /livegrep/bin/livegrep-reindex
-    image: us.gcr.io/livegrep/indexer:3d308220f8-0
+    image: us.gcr.io/livegrep/indexer:3d308220f8-1
     name: indexer
     resources:
       requests:

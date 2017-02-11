@@ -43,8 +43,9 @@ if [ "$do_update" ]; then
     version="$sha-$revision"
 fi
 
+echo "Setting version: $version"
+
 if [ "$dry_run" ]; then
-    echo "Setting version: $version"
     exit 0
 fi
 
