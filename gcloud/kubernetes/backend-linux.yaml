@@ -16,8 +16,7 @@ items:
         containers:
         - args: ['/livegrep/bin/livegrep-serve-index', 'linux']
           name: backend-linux
-          image: us.gcr.io/livegrep/backend:latest
-          imagePullPolicy: Always
+          image: us.gcr.io/livegrep/backend:3d308220f8-0
           resources:
             requests:
               cpu: 1

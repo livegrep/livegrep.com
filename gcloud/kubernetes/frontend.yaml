@@ -15,8 +15,7 @@ items:
         containers:
         - args: ['/livegrep/bin/livegrep', '/livegrep/conf/livegrep.json']
           name: livegrep
-          image: us.gcr.io/livegrep/frontend:latest
-          imagePullPolicy: Always
+          image: us.gcr.io/livegrep/frontend:3d308220f8-0
           resources:
             requests:
               cpu: 100m
@@ -31,8 +30,7 @@ items:
             successThreshold: 1
             failureThreshold: 10
         - name: nginx
-          image: us.gcr.io/livegrep/nginx:latest
-          imagePullPolicy: Always
+          image: us.gcr.io/livegrep/nginx:3d308220f8-0
           resources:
             requests:
               cpu: 100m

@@ -3,10 +3,11 @@ set -eux
 cd $(dirname "$0")
 
 imgs=(base backend frontend nginx indexer)
+version=$(cat ../VERSION)
 push=
 build=1
 
-TEMP=$(getopt -o '' --long push,build,no-build \
+TEMP=$(getopt -o '' --long push,build,no-build,version: \
      -n 'build.sh' -- "$@")
 
 if [ $? != 0 ] ; then exit 1 ; fi
@@ -17,6 +18,7 @@ while true ; do
         --push) push=1; shift ;;
         --build) build=1; shift ;;
         --no-build) build=; shift ;;
+        --version) version=$2; shift 2 ;;
         --) shift; break ;;
     esac
 done
@@ -27,13 +29,19 @@ fi
 
 if [ "$build" ]; then
     for img in "${imgs[@]}"; do
-        docker build -t "livegrep-$img" "$img"
+        if [ "$img"  = "base" ]; then
+            extra_args=(--build-arg "livegrep_version=${version%-*}")
+        else
+            extra_args=()
+            docker tag "livegrep-base:$version" "livegrep-base:latest"
+        fi
+        docker build -t "livegrep-$img:$version" "$img" ${extra_args[@]+"${extra_args[@]}"}
     done
 fi
 
 if [ "$push" ]; then
     for img in "${imgs[@]}"; do
-        docker tag "livegrep-$img" "us.gcr.io/livegrep/$img"
-        gcloud docker -- push "us.gcr.io/livegrep/$img"
+        docker tag "livegrep-$img:$version" "us.gcr.io/livegrep/$img:$version"
+        gcloud docker -- push "us.gcr.io/livegrep/$img:$version"
     done
 fi
