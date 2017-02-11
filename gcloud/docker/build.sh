@@ -2,7 +2,7 @@
 set -eux
 cd $(dirname "$0")
 
-imgs=(base backend frontend indexer)
+imgs=(base backend frontend nginx indexer)
 push=
 build=1
 

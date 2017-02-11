@@ -14,16 +14,14 @@ items:
       spec:
         containers:
         - args: ['/livegrep/bin/livegrep', '/livegrep/conf/livegrep.json']
-          name: frontend
+          name: livegrep
           image: us.gcr.io/livegrep/frontend:latest
           imagePullPolicy: Always
           resources:
             requests:
               cpu: 100m
-              memory: 1M
+              memory: 100M
           terminationMessagePath: /dev/termination-log
-          ports:
-            - containerPort: 8910
           readinessProbe:
             httpGet:
               path: /debug/healthcheck
@@ -32,6 +30,27 @@ items:
             timeoutSeconds: 1
             successThreshold: 1
             failureThreshold: 10
+        - name: nginx
+          image: us.gcr.io/livegrep/nginx:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100M
+          terminationMessagePath: /dev/termination-log
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /debug/healthcheck
+              port: 80
+            periodSeconds: 1
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 10
+          env:
+            - name: force_deploy
+              value: '0'
         dnsPolicy: ClusterFirst
 - apiVersion: v1
   kind: Service
@@ -40,7 +59,7 @@ items:
   spec:
     type: NodePort
     ports:
-      - port: 8910
+      - port: 80
     selector:
       app: livegrep-frontend
 - apiVersion: extensions/v1beta1
@@ -52,4 +71,4 @@ items:
       - secretName: beta.livegrep.com
     backend:
       serviceName: livegrep-frontend
-      servicePort: 8910
+      servicePort: 80
