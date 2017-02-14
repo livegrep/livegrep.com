@@ -14,9 +14,12 @@ items:
           backend: linux
       spec:
         containers:
-        - args: ['/livegrep/bin/livegrep-serve-index', 'linux']
+        - args:
+            - '/livegrep/bin/livegrep-serve-index'
+            - 'linux'
+            - '-threads=3'
           name: backend-linux
-          image: us.gcr.io/livegrep/backend:3d308220f8-1
+          image: us.gcr.io/livegrep/backend:3d308220f8-2
           resources:
             requests:
               cpu: 1
