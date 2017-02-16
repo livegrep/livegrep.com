@@ -52,5 +52,5 @@ fi
 echo "$version" > VERSION
 
 new_version=$version perl -i -lape '
- s{image: us.gcr.io/livegrep/[a-zA-Z0-9_-]+:\K(\S+)}{$ENV{new_version}}
+ s{image: docker.io/livegrep/[a-zA-Z0-9_-]+:\K(\S+)}{$ENV{new_version}}
 ' kubernetes/*.yaml

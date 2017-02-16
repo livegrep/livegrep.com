@@ -1,4 +1,4 @@
-FROM livegrep-base
+FROM livegrep/base
 RUN mkdir -p /livegrep/conf
 WORKDIR /livegrep
 

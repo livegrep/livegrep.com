@@ -33,15 +33,14 @@ if [ "$build" ]; then
             extra_args=(--build-arg "livegrep_version=${version%-*}")
         else
             extra_args=()
-            docker tag "livegrep-base:$version" "livegrep-base:latest"
+            docker tag "livegrep/base:$version" "livegrep/base:latest"
         fi
-        docker build -t "livegrep-$img:$version" "$img" ${extra_args[@]+"${extra_args[@]}"}
+        docker build -t "livegrep/$img:$version" "$img" ${extra_args[@]+"${extra_args[@]}"}
     done
 fi
 
 if [ "$push" ]; then
     for img in "${imgs[@]}"; do
-        docker tag "livegrep-$img:$version" "us.gcr.io/livegrep/$img:$version"
-        gcloud docker -- push "us.gcr.io/livegrep/$img:$version"
+        docker push "livegrep/$img:$version"
     done
 fi
