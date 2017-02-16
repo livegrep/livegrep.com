@@ -1,0 +1,15 @@
+sudo: required
+
+language: generic
+
+services:
+  - docker
+
+script:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - gcloud/docker/build.sh --push
+
+env:
+  global:
+    - DOCKER_USERNAME=livegrepbuild
+    - secure: "JUNMfam0lCXE5qf90E6O4gg6x4v2S35V+9z5AQbMpEwq5uN4f+BieJ8Li8xcf/OfBFdZVHwrz2Uol2QuNA0x96gdSCoGJhlVVPY6GoMalgRgxHQD1YLOWdidocF9jLsXRjDlOgTkL4LbFQHnaRshC0M2p1V2jAyhO+pc3mbbYrkl0p39YoZ7SSSNp6NVzu/Pk7tX1MYxctpyg4vIXHR5cMRAdEX6JYBDGaXT1+i04HXYOctcA6aGanTIwU4uuJKw2pmxXA8XCEj0ZDPLK39xWsCgCjzw4m3t+JbhG3lczS6GIwBvmSeRx739z+Uba1Kx9bydS8jzSCLOVDmiaYM0aTQUJmqr1cEzjaiuL5ubEg5FnWVHPuLbzLQKPQEVVQAvqQiCAIJhzRfjIpYrVs6bQiSOIWFsVWin54Pj4P9ptdiNGrCqiqc19oqHzsB2NZSEO/ZJgi52/xH6ItM3xQ6D9YXnW4LdTGLFzmr+G2VNy7Csiq59k7/b50FYOr5aPPvpNeb/kl8raoM0PG9yMvDOljSmaroIJjWwLeBV63XyPpcSF7mu66VPb9KgovLAdZhNqsP49FYZgjhZvHByB8PcxiGjJcXjTRqVx9CLsQrLxZIPHSnrU+MSShcIBUi1kFl01/hFBkgS69qFHxq6ewKR0gJxeJ1UF7nkysuiNTl0TgQ="
