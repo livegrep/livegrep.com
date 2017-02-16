@@ -19,7 +19,7 @@ items:
         containers:
         - args: ['/livegrep/bin/livegrep', '/livegrep/conf/livegrep.json']
           name: livegrep
-          image: docker.io/livegrep/frontend:b1193df7fd-2
+          image: docker.io/livegrep/frontend:b1193df7fd-3
           resources:
             requests:
               cpu: 100m
@@ -34,7 +34,7 @@ items:
             successThreshold: 1
             failureThreshold: 10
         - name: nginx
-          image: docker.io/livegrep/nginx:b1193df7fd-2
+          image: docker.io/livegrep/nginx:b1193df7fd-3
           resources:
             requests:
               cpu: 100m
@@ -76,6 +76,21 @@ items:
     tls:
       - hosts: [ beta.livegrep.com ]
         secretName: beta.livegrep.com
+    backend:
+      serviceName: livegrep-frontend
+      servicePort: 80
+- apiVersion: extensions/v1beta1
+  kind: Ingress
+  metadata:
+    name: livegrep-www
+    annotations:
+      stable.k8s.psg.io/kcm.enabled: "true"
+      stable.k8s.psg.io/kcm.provider: "googlecloud"
+      stable.k8s.psg.io/kcm.email: "nelhage@nelhage.com"
+  spec:
+    tls:
+      - hosts: [ livegrep.com ]
+        secretName: livegrep.com
     backend:
       serviceName: livegrep-frontend
       servicePort: 80
