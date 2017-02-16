@@ -20,7 +20,7 @@ items:
             - '-threads=3'
             - '-debug=profile,index'
           name: backend-linux
-          image: us.gcr.io/livegrep/backend:9a12ded706-0
+          image: us.gcr.io/livegrep/backend:b1193df7fd-0
           resources:
             requests:
               cpu: 1
