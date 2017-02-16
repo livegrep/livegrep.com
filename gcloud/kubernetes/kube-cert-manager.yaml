@@ -4,6 +4,7 @@ metadata:
   labels:
     app: kube-cert-manager
   name: kube-cert-manager
+  namespace: kube-system
 spec:
   replicas: 1
   template:
