@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: kube-cert-manager
+  name: kube-cert-manager
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: kube-cert-manager
+      name: kube-cert-manager
+    spec:
+      containers:
+        - name: kube-cert-manager
+          image: palmstonegames/kube-cert-manager:0.3.1
+          args:
+            - "-data-dir=/var/lib/cert-manager"
+            - "-acme-url=https://acme-v01.api.letsencrypt.org/directory"
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/cert-manager
+            - mountPath: /var/run/secrets/gcp
+              name: gcp
+              readOnly: true
+          env:
+            - name: GCE_PROJECT
+              value: livegrep
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /var/run/secrets/gcp/service-account.json
+        - name: kubectl-proxy
+          image: palmstonegames/kubectl-proxy:1.4.0
+      volumes:
+        - name: "data"
+          gcePersistentDisk:
+            pdName: kube-cert-manager
+            fsType: ext4
+        - name: gcp
+          secret:
+            defaultMode: 0644
+            secretName: gcp.cert-manager

@@ -1,0 +1,15 @@
+{
+    "backends":
+    [
+        {
+            "id": "linux",
+            "addr": "livegrep-backend-linux:9898"
+        }
+    ],
+    "google_analytics_id": "UA-10353960-3",
+    "feedback": {
+      "mailto": "nelhage@nelhage.com"
+    },
+    "reverse_proxy": true,
+    "listen": "0.0.0.0:8910"
+}

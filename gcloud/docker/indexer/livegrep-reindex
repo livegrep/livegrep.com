@@ -1,0 +1,24 @@
+#!/bin/bash
+set -eu
+
+eval $(ssh-agent)
+ssh-add /var/run/secrets/ssh/id_ed25519
+
+cd /livegrep
+
+export GIT_HTTP_LOW_SPEED_LIMIT=1024
+export GIT_HTTP_LOW_SPEED_TIME=60
+
+version=4.9
+
+bin/livegrep-github-reindex \
+  -name="Linux $version" \
+  -repo=torvalds/linux \
+  -revparse=false \
+  -revision="v$version" \
+  -dir "$(pwd)/data/" \
+  -out "$(pwd)/data/linux.idx"
+
+
+gsutil -o 'GSUtil:parallel_composite_upload_threshold=100M' \
+       cp data/linux.idx gs://livegrep.appspot.com/indexes/linux.idx

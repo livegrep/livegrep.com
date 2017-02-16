@@ -1,0 +1,46 @@
+#!/bin/bash
+set -eux
+cd $(dirname "$0")
+
+imgs=(base backend frontend nginx indexer)
+version=$(cat ../VERSION)
+push=
+build=1
+
+TEMP=$(getopt -o '' --long push,build,no-build,version: \
+     -n 'build.sh' -- "$@")
+
+if [ $? != 0 ] ; then exit 1 ; fi
+
+eval set -- "$TEMP"
+while true ; do
+    case "$1" in
+        --push) push=1; shift ;;
+        --build) build=1; shift ;;
+        --no-build) build=; shift ;;
+        --version) version=$2; shift 2 ;;
+        --) shift; break ;;
+    esac
+done
+
+if [ "$#" -ne 0 ]; then
+    imgs=("$@")
+fi
+
+if [ "$build" ]; then
+    for img in "${imgs[@]}"; do
+        if [ "$img"  = "base" ]; then
+            extra_args=(--build-arg "livegrep_version=${version%-*}")
+        else
+            extra_args=()
+            docker tag "livegrep/base:$version" "livegrep/base:latest"
+        fi
+        docker build -t "livegrep/$img:$version" "$img" ${extra_args[@]+"${extra_args[@]}"}
+    done
+fi
+
+if [ "$push" ]; then
+    for img in "${imgs[@]}"; do
+        docker push "livegrep/$img:$version"
+    done
+fi
