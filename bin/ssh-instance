@@ -1,5 +1,0 @@
-#!/bin/bash
-. "$(dirname "$0")/common.sh"
-instance="$1"; shift
-host=$(instance_hostname "$instance")
-exec ssh "$@" "$host"

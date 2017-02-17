@@ -1,3 +1,0 @@
-#!/bin/bash
-/home/livegrep/livegrep-reindex
-sudo /sbin/shutdown -h now

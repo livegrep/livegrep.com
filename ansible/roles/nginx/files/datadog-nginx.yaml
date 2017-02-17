@@ -1,3 +1,0 @@
-init_config:
-instances:
-  - nginx_status_url: http://localhost:8000/status/

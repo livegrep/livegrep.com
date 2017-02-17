@@ -1,8 +1,0 @@
----
-- name: get mailgun user
-  command: credstash -r us-west-2 get mailgun/username role=mailgun
-  register: mailgun_username
-
-- name: get mailgun password
-  command: credstash -r us-west-2 get mailgun/password role=mailgun
-  register: mailgun_password

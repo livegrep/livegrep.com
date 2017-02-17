@@ -7,7 +7,7 @@ services:
 
 script:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - gcloud/docker/build.sh --push
+  - bin/build --push
 
 env:
   global:

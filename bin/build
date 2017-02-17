@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eux
-cd $(dirname "$0")
+cd $(dirname "$0")/../docker
 
 imgs=(base backend frontend nginx indexer)
 version=$(cat ../VERSION)

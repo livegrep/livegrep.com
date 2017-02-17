@@ -1,7 +1,0 @@
-[Unit]
-Description=Livegrep web server
-
-[Service]
-ExecStart=/home/livegrep/deploy/bin/livegrep -docroot /home/livegrep/deploy/web/ /home/livegrep/livegrep.json
-User=livegrep
-Restart=always
