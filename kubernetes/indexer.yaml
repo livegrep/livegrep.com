@@ -12,7 +12,7 @@ spec:
     resources:
       requests:
         cpu: 1
-        memory: 4G
+        memory: 3G
     terminationMessagePath: /dev/termination-log
     volumeMounts:
     - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
