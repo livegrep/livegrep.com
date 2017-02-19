@@ -34,7 +34,6 @@ items:
           - mountPath: /var/run/secrets/gcp
             name: gcp
             readOnly: true
-            readOnly: true
           ports:
             - containerPort: 9898
           env:
