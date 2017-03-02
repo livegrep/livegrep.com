@@ -32,6 +32,8 @@ spec:
             key: oauth_key
       - name: GOOGLE_APPLICATION_CREDENTIALS
         value: /var/run/secrets/gcp/service-account.json
+      - name: LINUX_VERSION
+        value: "4.10"
   dnsPolicy: ClusterFirst
   restartPolicy: Never
   volumes:
