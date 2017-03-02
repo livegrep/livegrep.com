@@ -9,7 +9,7 @@ mkdir -p data
 gsutil -o 'GSUtil:parallel_composite_upload_threshold=100M' \
        cp "gs://livegrep.appspot.com/indexes/$index.idx" "data/$index.idx"
 
-time cat data/linux.idx >/dev/null
+time cat "data/$index.idx" >/dev/null
 
 exec /livegrep/bin/codesearch \
      -grpc 0.0.0.0:9898 \
