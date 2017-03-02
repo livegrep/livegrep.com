@@ -9,7 +9,7 @@ cd /livegrep
 export GIT_HTTP_LOW_SPEED_LIMIT=1024
 export GIT_HTTP_LOW_SPEED_TIME=60
 
-version=4.9
+version=${LINUX_VERSION-4.9}
 
 bin/livegrep-github-reindex \
   -name="Linux $version" \
