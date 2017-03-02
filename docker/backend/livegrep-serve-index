@@ -6,6 +6,8 @@ index=$1; shift
 cd /livegrep
 mkdir -p data
 
+gcloud auth activate-service-account "--key-file=$GOOGLE_APPLICATION_CREDENTIALS"
+
 gsutil -o 'GSUtil:parallel_composite_upload_threshold=100M' \
        cp "gs://livegrep.appspot.com/indexes/$index.idx" "data/$index.idx"
 

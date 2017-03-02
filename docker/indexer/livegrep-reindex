@@ -1,6 +1,7 @@
 #!/bin/bash
 set -eu
 
+gcloud auth activate-service-account "--key-file=$GOOGLE_APPLICATION_CREDENTIALS"
 eval $(ssh-agent)
 ssh-add /var/run/secrets/ssh/id_ed25519
 
