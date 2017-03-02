@@ -24,7 +24,7 @@ items:
             - '-threads=3'
             - '-debug=profile,index'
           name: backend-linux
-          image: docker.io/livegrep/backend:5ae320758d-0
+          image: docker.io/livegrep/backend:5ae320758d-1
           resources:
             requests:
               cpu: 1

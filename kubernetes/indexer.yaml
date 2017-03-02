@@ -7,7 +7,7 @@ spec:
   containers:
   - args:
     - /livegrep/bin/livegrep-reindex
-    image: docker.io/livegrep/indexer:5ae320758d-0
+    image: docker.io/livegrep/indexer:5ae320758d-1
     name: indexer
     resources:
       requests:
