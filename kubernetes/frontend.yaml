@@ -19,7 +19,7 @@ items:
         containers:
         - args: ['/livegrep/bin/livegrep', '/livegrep/conf/livegrep.json']
           name: livegrep
-          image: docker.io/livegrep/frontend:5ae320758d-1
+          image: docker.io/livegrep/frontend:c69fc87a38-0
           resources:
             requests:
               cpu: 100m
@@ -34,7 +34,7 @@ items:
             successThreshold: 1
             failureThreshold: 10
         - name: nginx
-          image: docker.io/livegrep/nginx:5ae320758d-1
+          image: docker.io/livegrep/nginx:c69fc87a38-0
           resources:
             requests:
               cpu: 100m
@@ -51,8 +51,16 @@ items:
             successThreshold: 1
             failureThreshold: 10
           env:
-            - name: force_deploy
-              value: '0'
+            - name: HONEYCOMB_WRITE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: honeycomb.livegrep
+                  key: write_key
+            - name: HONEYCOMB_DATASET
+              valueFrom:
+                secretKeyRef:
+                  name: honeycomb.livegrep
+                  key: dataset
         dnsPolicy: ClusterFirst
 - apiVersion: v1
   kind: Service
