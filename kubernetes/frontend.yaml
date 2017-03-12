@@ -19,7 +19,7 @@ items:
         containers:
         - args: ['/livegrep/bin/livegrep', '/livegrep/conf/livegrep.json']
           name: livegrep
-          image: docker.io/livegrep/frontend:c69fc87a38-0
+          image: docker.io/livegrep/frontend:c69fc87a38-1
           resources:
             requests:
               cpu: 100m
@@ -29,23 +29,6 @@ items:
             httpGet:
               path: /debug/healthcheck
               port: 8910
-            periodSeconds: 1
-            timeoutSeconds: 1
-            successThreshold: 1
-            failureThreshold: 10
-        - name: nginx
-          image: docker.io/livegrep/nginx:c69fc87a38-0
-          resources:
-            requests:
-              cpu: 100m
-              memory: 100M
-          terminationMessagePath: /dev/termination-log
-          ports:
-            - containerPort: 80
-          readinessProbe:
-            httpGet:
-              path: /debug/healthcheck
-              port: 80
             periodSeconds: 1
             timeoutSeconds: 1
             successThreshold: 1
@@ -61,6 +44,23 @@ items:
                 secretKeyRef:
                   name: honeycomb.livegrep
                   key: dataset
+        - name: nginx
+          image: docker.io/livegrep/nginx:c69fc87a38-1
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100M
+          terminationMessagePath: /dev/termination-log
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /debug/healthcheck
+              port: 80
+            periodSeconds: 1
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 10
         dnsPolicy: ClusterFirst
 - apiVersion: v1
   kind: Service
