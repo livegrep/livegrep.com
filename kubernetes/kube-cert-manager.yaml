@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: kube-cert-manager
-          image: palmstonegames/kube-cert-manager:0.3.1
+          image: us.gcr.io/livegrep/kube-cert-manager:v0.4.0-nelhage1
           args:
             - "-data-dir=/var/lib/cert-manager"
             - "-acme-url=https://acme-v01.api.letsencrypt.org/directory"
@@ -30,7 +30,8 @@ spec:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/run/secrets/gcp/service-account.json
         - name: kubectl-proxy
-          image: palmstonegames/kubectl-proxy:1.4.0
+          image: lachlanevenson/k8s-kubectl:v1.6.2
+          args: [ "proxy" ]
       volumes:
         - name: "data"
           gcePersistentDisk:
