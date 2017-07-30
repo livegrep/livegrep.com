@@ -14,10 +14,11 @@ spec:
     spec:
       containers:
         - name: kube-cert-manager
-          image: us.gcr.io/livegrep/kube-cert-manager:v0.4.0-nelhage1
+          image: gcr.io/livegrep/kube-cert-manager@sha256:880ea5905b709d81a3f2e637e40de264562698ffc408ee5a1a474fe775d3ff93
           args:
             - "-data-dir=/var/lib/cert-manager"
             - "-acme-url=https://acme-v01.api.letsencrypt.org/directory"
+            - "-renew-before-days=30"
           volumeMounts:
             - name: data
               mountPath: /var/lib/cert-manager
@@ -29,9 +30,6 @@ spec:
               value: livegrep
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/run/secrets/gcp/service-account.json
-        - name: kubectl-proxy
-          image: lachlanevenson/k8s-kubectl:v1.6.2
-          args: [ "proxy" ]
       volumes:
         - name: "data"
           gcePersistentDisk:
