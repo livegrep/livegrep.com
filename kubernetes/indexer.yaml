@@ -33,7 +33,7 @@ spec:
       - name: GOOGLE_APPLICATION_CREDENTIALS
         value: /var/run/secrets/gcp/service-account.json
       - name: LINUX_VERSION
-        value: "4.10"
+        value: "4.12"
   dnsPolicy: ClusterFirst
   restartPolicy: Never
   volumes:
