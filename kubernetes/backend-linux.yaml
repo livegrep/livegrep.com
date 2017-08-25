@@ -39,6 +39,8 @@ items:
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /var/run/secrets/gcp/service-account.json
+            - name: force_redeploy
+              value: "1"
         dnsPolicy: ClusterFirst
         volumes:
         - name: gcp
