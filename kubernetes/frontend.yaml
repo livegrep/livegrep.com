@@ -17,7 +17,7 @@ items:
           app: livegrep-frontend
       spec:
         containers:
-        - args: ['/livegrep/bin/livegrep', '/livegrep/conf/livegrep.json']
+        - args: ['/livegrep/bin/livegrep', '-docroot', '/livegrep/web/', '/livegrep/conf/livegrep.json']
           name: livegrep
           image: docker.io/livegrep/frontend:c768b7649c-0
           resources:
