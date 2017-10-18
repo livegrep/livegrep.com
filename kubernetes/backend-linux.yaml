@@ -41,6 +41,11 @@ items:
               value: /var/run/secrets/gcp/service-account.json
             - name: force_redeploy
               value: "1"
+          readinessProbe:
+            tcpSocket:
+              port: 9898
+            initialDelaySeconds: 20
+            periodSeconds: 20
         dnsPolicy: ClusterFirst
         volumes:
         - name: gcp
