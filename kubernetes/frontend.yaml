@@ -82,23 +82,6 @@ items:
 - apiVersion: extensions/v1beta1
   kind: Ingress
   metadata:
-    name: livegrep
-    labels:
-      stable.k8s.psg.io/kcm.class: "default"
-    annotations:
-      stable.k8s.psg.io/kcm.enabled: "true"
-      stable.k8s.psg.io/kcm.provider: "googlecloud"
-      stable.k8s.psg.io/kcm.email: "nelhage@nelhage.com"
-  spec:
-    tls:
-      - hosts: [ beta.livegrep.com ]
-        secretName: beta.livegrep.com
-    backend:
-      serviceName: livegrep-frontend
-      servicePort: 80
-- apiVersion: extensions/v1beta1
-  kind: Ingress
-  metadata:
     name: livegrep-www
     labels:
       stable.k8s.psg.io/kcm.class: "default"
