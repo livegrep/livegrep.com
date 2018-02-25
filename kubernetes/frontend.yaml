@@ -83,12 +83,10 @@ items:
   kind: Ingress
   metadata:
     name: livegrep-www
-    labels:
-      stable.k8s.psg.io/kcm.class: "default"
     annotations:
-      stable.k8s.psg.io/kcm.enabled: "true"
-      stable.k8s.psg.io/kcm.provider: "googlecloud"
-      stable.k8s.psg.io/kcm.email: "nelhage@nelhage.com"
+      certmanager.k8s.io/issuer: letsencrypt-production
+      certmanager.k8s.io/acme-challenge-type: dns01
+      certmanager.k8s.io/acme-dns01-provider: prod-dns
   spec:
     tls:
       - hosts: [ livegrep.com ]

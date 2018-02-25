@@ -1,0 +1,19 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Issuer
+metadata:
+  name: letsencrypt-production
+  namespace: default
+spec:
+  acme:
+    server: https://acme-v01.api.letsencrypt.org/directory
+    email: nelhage@nelhage.com
+    privateKeySecretRef:
+      name: letsencrypt-production
+    dns01:
+      providers:
+      - name: prod-dns
+        clouddns:
+          serviceAccountSecretRef:
+            name: gcp.cert-manager
+            key: service-account.json
+          project: livegrep
