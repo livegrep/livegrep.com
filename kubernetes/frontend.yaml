@@ -19,7 +19,7 @@ items:
         containers:
         - args: ['/livegrep/bin/livegrep', '-docroot', '/livegrep/web/', '/livegrep/conf/livegrep.json']
           name: livegrep
-          image: docker.io/livegrep/frontend:c768b7649c-0
+          image: docker.io/livegrep/frontend:ac5078ceb8-0
           resources:
             requests:
               cpu: 100m
@@ -45,7 +45,7 @@ items:
                   name: honeycomb.livegrep
                   key: dataset
         - name: nginx
-          image: docker.io/livegrep/nginx:c768b7649c-0
+          image: docker.io/livegrep/nginx:ac5078ceb8-0
           resources:
             requests:
               cpu: 100m

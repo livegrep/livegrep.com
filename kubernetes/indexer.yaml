@@ -7,7 +7,7 @@ spec:
   containers:
   - args:
     - /livegrep/bin/livegrep-reindex
-    image: docker.io/livegrep/indexer:c768b7649c-0
+    image: docker.io/livegrep/indexer:ac5078ceb8-0
     name: indexer
     resources:
       requests:
@@ -33,7 +33,7 @@ spec:
       - name: GOOGLE_APPLICATION_CREDENTIALS
         value: /var/run/secrets/gcp/service-account.json
       - name: LINUX_VERSION
-        value: "4.12"
+        value: "4.16"
   dnsPolicy: ClusterFirst
   restartPolicy: Never
   volumes:
