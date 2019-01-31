@@ -1,0 +1,35 @@
+version: "3.3"
+services:
+  livegrep-backend-linux:
+    image: "docker.io/livegrep/base:${image_version}"
+    command:
+      - "/livegrep/bin/codesearch"
+      - "-grpc=0.0.0.0:9898"
+      - "-load_index=/data/index.idx"
+      - "-debug=profile,index"
+      - "-threads=4"
+    ports:
+      - "9898:9898"
+    volumes:
+      - livegrep-data:/data
+
+  livegrep-frontend:
+    image: "docker.io/livegrep/frontend:${image_version}"
+    command:
+      - "/livegrep/bin/livegrep"
+      - "-docroot"
+      - "/livegrep/web/"
+      - "/livegrep/conf/livegrep.json"
+    ports:
+      - 8910
+    expose:
+      - 8910
+
+  livegrep-nginx:
+    image: "docker.io/livegrep/nginx:${image_version}"
+    ports:
+      - 80
+    expose:
+      - 80
+volumes:
+  livegrep-data:
