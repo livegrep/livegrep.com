@@ -1,7 +1,5 @@
-https://beta.livegrep.com {
-  tls nelhage@nelhage.com {
-    ca https://acme-staging-v02.api.letsencrypt.org/directory
-  }
+beta.livegrep.com {
+  tls nelhage@nelhage.com
   log stdout
 
   proxy / http://livegrep-nginx:80 {
