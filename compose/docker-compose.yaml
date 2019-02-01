@@ -14,19 +14,31 @@ services:
       - livegrep-data:/data
 
   livegrep-frontend:
-    image: "docker.io/livegrep/frontend:${image_version}"
+    image: "docker.io/livegrep/base:${image_version}"
     command:
       - "/livegrep/bin/livegrep"
       - "-docroot"
       - "/livegrep/web/"
-      - "/livegrep/conf/livegrep.json"
+      - "/conf/livegrep.json"
     ports:
       - 8910
-    expose:
-      - 8910
+    volumes:
+      - type: bind
+        source: ./conf
+        target: /conf
+        read_only: true
 
   livegrep-nginx:
     image: "docker.io/livegrep/nginx:${image_version}"
+    command:
+      - nginx
+      - -c
+      - /conf/nginx.conf
+    volumes:
+      - type: bind
+        source: ./conf
+        target: /conf
+        read_only: true
     ports:
       - 80
     expose:
