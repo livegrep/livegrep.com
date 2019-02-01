@@ -30,7 +30,7 @@ services:
 
   livegrep-nginx:
     image: "docker.io/livegrep/nginx:${image_version}"
-    command:
+    entrypoint:
       - nginx
       - -c
       - /conf/nginx.conf
@@ -39,9 +39,29 @@ services:
         source: ./conf
         target: /conf
         read_only: true
-    ports:
-      - 80
     expose:
       - 80
+
+  caddy:
+    image: "abiosoft/caddy:0.11.1"
+    entrypoint:
+      - caddy
+      - -conf=/conf/Caddyfile
+    environment:
+      - CADDYPATH=/caddy
+      - ACME_AGREE=true
+    volumes:
+      - type: bind
+        source: ./conf
+        target: /conf
+        read_only: true
+      - caddy:/caddy
+    expose:
+      - 80
+      - 4443
+    ports:
+      - 80
+      - 4443
 volumes:
   livegrep-data:
+  caddy:
