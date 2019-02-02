@@ -1,3 +1,0 @@
-[submodule "ansible/roles/postfix"]
-	path = ansible/roles/postfix
-	url = https://github.com/nelhage/ansible-role-postfix.git
