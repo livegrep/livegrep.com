@@ -28,6 +28,7 @@ services:
         source: ./conf
         target: /conf
         read_only: true
+    restart: unless-stopped
 
   livegrep-nginx:
     image: "docker.io/livegrep/nginx:${image_version}"
@@ -42,6 +43,7 @@ services:
         read_only: true
     expose:
       - 80
+    restart: unless-stopped
 
   caddy:
     image: "abiosoft/caddy:0.11.1"
@@ -63,6 +65,8 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    restart: unless-stopped
+
 volumes:
   livegrep-data:
   caddy:
