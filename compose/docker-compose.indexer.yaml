@@ -7,7 +7,7 @@ services:
      - "-name=Linux $linux_version"
      - -repo=torvalds/linux
      - -revparse=false
-     - -"revision=v$linux_version"
+     - "-revision=v$linux_version"
      - -dir=/data/
      - -out=/data/index.idx
      - -http
