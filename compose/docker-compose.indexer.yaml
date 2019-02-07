@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+  livegrep-indexer:
+    image: docker.io/livegrep/indexer:${image_version}
+    command:
+     - /livegrep/bin/livegrep-github-reindex
+     - "-name=Linux $linux_version"
+     - -repo=torvalds/linux
+     - -revparse=false
+     - "-revision=v$linux_version"
+     - -dir=/data/
+     - -out=/data/index.idx
+     - -http
+    volumes:
+     - livegrep-data:/data

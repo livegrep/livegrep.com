@@ -1,0 +1,22 @@
+(base) {
+  tls nelhage@nelhage.com
+  log stdout
+  header / {
+    Strict-Transport-Security "max-age=31557600"
+    Expect-CT "enforce, max-age=31536000"
+  }
+}
+
+(livegrep) {
+  proxy / http://livegrep-nginx:80 {
+    transparent
+  }
+}
+
+beta.livegrep.com {
+  import livegrep
+}
+
+livegrep.com {
+  import livegrep
+}

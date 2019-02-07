@@ -2,7 +2,7 @@
 set -eux
 cd $(dirname "$0")/../docker
 
-imgs=(base backend frontend nginx indexer)
+imgs=(base nginx indexer)
 version=$(cat ../VERSION)
 push=
 build=1
