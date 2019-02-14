@@ -6,8 +6,7 @@ services:
   - docker
 
 script:
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - bin/build --push
+  - ./travis.sh
 
 env:
   global:
