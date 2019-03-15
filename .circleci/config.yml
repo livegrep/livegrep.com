@@ -1,0 +1,18 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: docker:latest
+
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: |
+          apk update
+          apk add bash
+      - run:
+          name: Build
+          command: ./circle.sh
+          environment:
+            DOCKER_USERNAME: livegrepbuild
