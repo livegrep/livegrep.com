@@ -31,7 +31,7 @@ if [ "$do_update" ]; then
     sha=${version%-*}
     revision=${version#*-}
     if [ "$new_sha" ]; then
-        sha=$new_sha
+        sha=$(echo "$new_sha" | cut -c1-10)
         revision=0
     fi
     if [ "$new_revision" ]; then
